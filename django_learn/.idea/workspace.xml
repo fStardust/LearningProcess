@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="07da2858-fbca-4cb9-a1d0-23c5d916a25b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../myDjangoSite/.idea/myDjangoSite.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Django/开始编写.md" beforeDir="false" afterPath="$PROJECT_DIR$/../Django/开始编写.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="07da2858-fbca-4cb9-a1d0-23c5d916a25b" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
