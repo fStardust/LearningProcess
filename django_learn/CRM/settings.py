@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'students',
     'teacher',
+    'polls.apps.PollsConfig',
 ]
 
 MIDDLEWARE = [
