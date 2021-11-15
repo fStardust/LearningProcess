@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    欢迎{{ user.username|default:'游客' }}访问
+
+    {% if user.is_authenticated %}
+    <a href="{% url "student:logout" %}">退出</a>
+    {% else %}
+    <a href="{% url "student:login" %}">登录</a>
+    {% endif %}
+
+{#    {{ perms }} #}
+{#    对某个app是否有操作权限 #}
+{#    对某个app中的模型是否有权限 #}
+    {% if perms.students %}
+        <p>有students app的权限</p>
+        {% if perms.students.add_student %}
+            <p>有students app中对student表增的权限</p>
+        {% else %}
+            <p>没有students app中对student表增的权限</p>
+        {% endif %}
+    {% else %}
+        <p>没有students app的权限</p>
+    {% endif %}
+</body>
+</html>

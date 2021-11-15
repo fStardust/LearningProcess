@@ -1,0 +1,27 @@
+{#<ul>#}
+{#    {% for item in u_list %}#}
+{#        <li>{{ item }}</li>#}
+{#    {% endfor %}#}
+{#</ul>#}
+
+{% if flag == 'list' %}
+<ul class="list-group">
+    {% for item in u_list %}
+  <li class="list-group-item">{{ item }}</li>
+    {% endfor %}
+</ul>
+
+{% elif flag == 'link' %}
+<div class="list-group">
+    {% for item in u_list %}
+  <a href="#" class="list-group-item">{{ item }}</a>
+    {% endfor %}
+</div>
+
+{% else %}
+<div class="list-group">
+    {% for item in u_list %}
+  <button type="button" class="list-group-item">{{ item }}</button>
+    {% endfor %}
+</div>
+{% endif %}

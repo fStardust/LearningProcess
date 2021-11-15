@@ -1,0 +1,4 @@
+<option value=0>未分班</option>
+{% for grade in grades %}
+<option {% if grade.id == student.grade.id %}selected{% endif %} value={{ grade.id }}>{{ grade }}</option>
+{% endfor %}
