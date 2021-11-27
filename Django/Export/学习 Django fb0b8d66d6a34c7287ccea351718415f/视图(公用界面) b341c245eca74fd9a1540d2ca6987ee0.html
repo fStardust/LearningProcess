@@ -1,0 +1,745 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>视图(公用界面)</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+}
+
+.simple-table-header {
+	background: rgb(247, 246, 243);
+	color: black;
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(145, 145, 142, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(187, 132, 108, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(215, 129, 58, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 148, 51, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(108, 155, 125, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(91, 151, 189, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(167, 130, 195, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(205, 116, 159, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(225, 111, 100, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(145, 145, 142, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(187, 132, 108, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(215, 129, 58, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 148, 51, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(108, 155, 125, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(91, 151, 189, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(167, 130, 195, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(205, 116, 159, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(225, 111, 100, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="b341c245-eca7-4fd9-a154-0d2ca6987ee0" class="page sans"><header><h1 class="page-title">视图(公用界面)</h1></header><div class="page-body"><nav id="30f918a0-ca23-4891-9731-fada8c1c22fc" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#65b8cf1e-2728-4d92-a496-21be34ab26db">概况</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#b8b244af-c002-4c0f-b21a-3b1261d6b4f5">编写更多视图</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#52c174c5-85ae-4a7a-8733-64695dde8ca6">写一个真正有用的视图（模板）</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#299840be-3e8c-437a-b368-21536d717aed"><strong>一个快捷函数： </strong><a href="https://docs.djangoproject.com/zh-hans/3.2/topics/http/shortcuts/#django.shortcuts.render"><code><strong>render()</strong></code></a></a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#b837a104-1258-4ac2-a798-5ef4aabb7c29">抛出 404 错误</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#71ea762a-c768-4537-ba28-8141851d50e6"><strong>一个快捷函数： </strong><a href="https://docs.djangoproject.com/zh-hans/3.2/topics/http/shortcuts/#django.shortcuts.get_object_or_404"><code><strong>get_object_or_404()</strong></code></a></a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#2366c95c-9a4f-4612-8df9-3b531fa88ba6">使用模板系统</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#a626f3cf-bcdb-4964-bec3-9d37bbf812fb">去除模板中的硬编码 URL</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#1e367ebc-fce1-42ab-8954-b3d47bac522e">为 URL 名称添加命名空间</a></div></nav><h2 id="65b8cf1e-2728-4d92-a496-21be34ab26db" class="">概况</h2><p id="5dff912c-6244-4ad5-8b0f-ac7eec078391" class="">Django 中的视图的概念是「一类具有相同功能和模板的网页的集合」。比如，在我们的投票应用中，我们需要下列几个视图：</p><ul id="efd6a0c8-d56f-4540-8729-45cb1947a88c" class="bulleted-list"><li style="list-style-type:disc">问题索引页——展示最近的几个投票问题。</li></ul><ul id="7b1e2252-aa5d-41dc-8c02-16af9cc8b612" class="bulleted-list"><li style="list-style-type:disc">问题详情页——展示某个投票的问题和不带结果的选项列表。</li></ul><ul id="184b8759-6bd8-4556-a265-ace9620217a0" class="bulleted-list"><li style="list-style-type:disc">问题结果页——展示某个投票的结果。</li></ul><ul id="dd65c1f1-da60-4cd2-bf8c-2c95214a65ff" class="bulleted-list"><li style="list-style-type:disc">投票处理器——用于响应用户为某个问题的特定选项投票的操作。</li></ul><p id="e1e1494b-21b8-4604-93f5-0e6522852781" class="">在 Django 中，<strong>网页和其他内容都是从视图派生而来</strong>。每一个视图表现为一个 Python 函数（或者说方法，如果是在基于类的视图里的话）。Django 将会根据用户请求的 URL 来选择使用哪个视图（更准确的说，是根据 URL 中域名之后的部分）。为了将 URL 和视图关联起来，Django 使用了 &#x27;URLconfs&#x27; 来配置。URLconf 将 URL 模式映射到视图。此处只会介绍 URLconf 的基础内容，可以通过 <a href="https://docs.djangoproject.com/zh-hans/3.2/topics/http/urls/">URL调度器</a> 以获取更多内容。</p><h2 id="b8b244af-c002-4c0f-b21a-3b1261d6b4f5" class="">编写更多视图</h2><p id="37d6b3d0-6c01-49cd-aeeb-eccaecbfce1f" class="">现在让我们向 <code><strong>polls/views.py</strong></code> 里添加更多视图。这些视图有一些不同，因为他们接收参数：</p><pre id="d79adef2-147c-43f2-bf47-c2ad42d7ff65" class="code code-wrap"><code>def detail(request, question_id):
+return HttpResponse(&quot;You&#x27;re looking at question%s.&quot; % question_id)
+
+def results(request, question_id):
+    response = &quot;You&#x27;re looking at the results of question%s.&quot;
+return HttpResponse(response % question_id)
+
+def vote(request, question_id):
+return HttpResponse(&quot;You&#x27;re voting on question%s.&quot; % question_id)</code></pre><p id="18563f58-4a3c-423f-a89f-3a74677d2b25" class="">把这些新视图添加进 <code><strong>polls.urls</strong></code> 模块里，只要添加几个 <a href="https://docs.djangoproject.com/zh-hans/3.2/ref/urls/#django.conf.urls.url"><code><strong>url()</strong></code></a> 函数调用就行：</p><pre id="623ff4df-94fa-40b4-9b28-2552cffba05c" class="code code-wrap"><code>fromdjango.urlsimport path
+
+from.import views
+
+urlpatterns = [
+# ex: /polls/path(&#x27;&#x27;, views.index, name=&#x27;index&#x27;),
+# ex: /polls/5/path(&#x27;&lt;int:question_id&gt;/&#x27;, views.detail, name=&#x27;detail&#x27;),
+# ex: /polls/5/results/path(&#x27;&lt;int:question_id&gt;/results/&#x27;, views.results, name=&#x27;results&#x27;),
+# ex: /polls/5/vote/path(&#x27;&lt;int:question_id&gt;/vote/&#x27;, views.vote, name=&#x27;vote&#x27;),
+]</code></pre><p id="a6b298f5-596f-49ce-98e3-abe7eb1a4143" class="">然后看看你的浏览器，如果你转到 &quot;/polls/34/&quot; ，Django 将会运行 <code><strong>detail()</strong></code> 方法并且展示你在 URL 里提供的问题 ID。再试试 &quot;/polls/34/vote/&quot; 和 &quot;/polls/34/vote/&quot; ——你将会看到暂时用于占位的结果和投票页。当某人请求你网站的某一页面时——比如说， &quot;/polls/34/&quot; ，Django 将会载入 <code><strong>mysite.urls</strong></code> 模块，因为这在配置项 <a href="https://docs.djangoproject.com/zh-hans/3.2/ref/settings/#std:setting-ROOT_URLCONF"><code><strong>ROOT_URLCONF</strong></code></a> 中设置了。然后 Django 寻找名为 <code><strong>urlpatterns</strong></code> 变量并且按序匹配正则表达式。在找到匹配项 <code><strong>&#x27;polls/&#x27;</strong></code>，它切掉了匹配的文本（<code><strong>&quot;polls/&quot;</strong></code>），将剩余文本——<code><strong>&quot;34/&quot;</strong></code>，发送至 &#x27;polls.urls&#x27; URLconf 做进一步处理。在这里剩余文本匹配了 <code><strong>&#x27;&lt;int:question_id&gt;/&#x27;</strong></code>，使得我们 Django 以如下形式调用 <code><strong>detail()</strong></code>:</p><p id="d47d14e5-eeeb-41b5-b88f-56c22d1432bd" class=""><code>detail(request=&lt;HttpRequest object&gt;, question_id=34)</code></p><p id="b0de0f9e-fea5-4057-8dab-220dbf392565" class="">该句，使用尖括号“捕捉”URL的一部分，并将其作为关键字参数发送给视图函数。字符串的<code>question_id</code>部分定义了将用于标识匹配模式的名称，而<code>int</code>部分是一个转换器，它确定哪些模式应该匹配这部分URL路径。冒号<code>(:)</code>分隔转换器和模式名称。</p><h2 id="52c174c5-85ae-4a7a-8733-64695dde8ca6" class="">写一个真正有用的视图（模板）</h2><p id="5dc62d07-8f52-4cb8-9109-36d96a03bcbe" class="">每个视图必须要做的只有两件事：返回一个包含被请求页面内容的 <a href="https://docs.djangoproject.com/zh-hans/3.2/ref/request-response/#django.http.HttpResponse"><code><strong>HttpResponse</strong></code></a> 对象，或者抛出一个异常，比如 <a href="https://docs.djangoproject.com/zh-hans/3.2/topics/http/views/#django.http.Http404"><code><strong>Http404</strong></code></a> 。至于你还想干些什么，随便你。</p><p id="615448ff-871e-47b9-b1c2-abe1d72e0c61" class="">你的视图可以从数据库里读取记录，可以使用一个模板引擎（比如 Django 自带的，或者其他第三方的），可以生成一个 PDF 文件，可以输出一个 XML，创建一个 ZIP 文件，你可以做任何你想做的事，使用任何你想用的 Python 库。</p><p id="0ca571ad-95c4-451a-a215-c40036d3ac88" class="">Django 只要求返回的是一个 <a href="https://docs.djangoproject.com/zh-hans/3.2/ref/request-response/#django.http.HttpResponse"><code><strong>HttpResponse</strong></code></a> ，或者抛出一个异常。</p><p id="d0bbbcdb-6b4f-4f09-a547-9216fb7ae70c" class="">因为 Django 自带的数据库 API 很方便，我们曾在 <a href="%E5%88%9D%E8%AF%95%20API%209a7b3eb93c3a4778b6452b117b62610a.html">初试API</a> 中学过，我们试试在视图里使用它。在 <code><strong>index()</strong></code> 函数里插入了一些新内容，让它能展示数据库里以发布日期排序的最近 5 个投票问题，以空格分割：</p><pre id="d8ac9252-da3a-4198-9929-3e34913ad7bf" class="code code-wrap"><code>fromdjango.httpimport HttpResponse
+
+from.modelsimport Question
+
+
+def index(request):
+    latest_question_list = Question.objects.order_by(&#x27;-pub_date&#x27;)[:5]
+    output = &#x27;, &#x27;.join([q.question_textfor qin latest_question_list])
+return HttpResponse(output)
+
+# 其他视图函数不变</code></pre><p id="aa5c95d6-6317-4b9c-8777-7f13d863d1eb" class="">这里出现了个问题：页面的设计写死在视图函数的代码里的。如果你想改变页面的样子，你需要编辑 Python 代码。所以让我们使用 Django 的模板系统，只要创建一个视图，就可以将页面的设计从代码中分离出来。<strong><code>使用模板 (templates)</code></strong></p><p id="23519a38-98c5-4162-bc64-6e07c79b6c0e" class="">首先，在你的 <code><strong>polls</strong></code> 目录里创建一个 <code><strong>templates</strong></code> 目录。Django 将会在这个目录里查找模板文件。</p><p id="34a0e99d-f057-4a49-880c-828291415f46" class="">你项目的 <a href="https://docs.djangoproject.com/zh-hans/3.2/ref/settings/#std:setting-TEMPLATES"><code><strong>TEMPLATES</strong></code></a> 配置项描述了 Django 如何载入和渲染模板。默认的设置文件设置了 <code><strong>DjangoTemplates</strong></code> 后端，并将 <a href="https://docs.djangoproject.com/zh-hans/3.2/ref/settings/#std:setting-TEMPLATES-APP_DIRS"><code><strong>APP_DIRS</strong></code></a> 设置成了 <code>True</code>。这一选项将会让 <code><strong>DjangoTemplates</strong></code> 在每个 <a href="https://docs.djangoproject.com/zh-hans/3.2/ref/settings/#std:setting-INSTALLED_APPS"><code><strong>INSTALLED_APPS</strong></code></a> 文件夹中寻找 &quot;templates&quot; 子目录。这就是为什么尽管我们没有像在第二部分中那样修改 DIRS 设置，Django 也能正确找到 polls 的模板位置的原因。</p><p id="1785c308-4fbb-4278-a938-5aa26fb6b735" class="">在你刚刚创建的 <code><strong>templates</strong></code> 目录里，再创建一个目录 <code><strong>polls</strong></code>，然后在其中新建一个文件 <code><strong>index.html</strong></code> 。换句话说，你的模板文件的路径应该是 <code><strong>polls/templates/polls/index.html</strong></code> 。因为<code>``app_directories``</code> 模板加载器是通过上述描述的方法运行的，此时Django 可以引用到 <code><strong>polls/index.html</strong></code> 这一模板了。</p><p id="08d54a8d-724f-4850-9283-b9073c655127" class="">将下面的代码输入到刚刚创建的模板文件<code>polls/templates/polls/index.html</code>中：</p><pre id="7c50ef13-0367-4aab-88f3-82bdc5998ab9" class="code code-wrap"><code>{% if latest_question_list %}
+    &lt;ul&gt;
+        {% for question in latest_question_list %}
+            &lt;li&gt;&lt;a href=&quot;/polls/{{ question.id }}/&quot;&gt;{{ question.question_text }}&lt;/a&gt;&lt;/li&gt;
+        {% endfor %}
+    &lt;/ul&gt;
+{% else %}
+    &lt;p&gt;No polls are available.&lt;/p&gt;
+{% endif %}</code></pre><p id="c86d5d9a-889a-4d18-8cd2-ae38092374af" class="">在你自己创建的项目中，你应该使用 <a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/Getting_started#anatomy_of_an_html_document">完整的 HTML 文档</a> 。</p><p id="510647ed-3279-4984-95b8-8e588eb47043" class="">然后，让我们更新一下 <code><strong>polls/views.py</strong></code> 里的 <code><strong>index</strong></code> 视图来使用模板</p><pre id="472d6cb6-eea3-4257-93ff-b1c6ff2290fd" class="code code-wrap"><code>from django.httpimport HttpResponse
+from django.templateimport loader
+
+from .modelsimport Question
+
+
+def index(request):
+    latest_question_list = Question.objects.order_by(&#x27;-pub_date&#x27;)[:5]
+    template = loader.get_template(&#x27;polls/index.html&#x27;)
+    context = {
+        &#x27;latest_question_list&#x27;: latest_question_list,
+    }
+return HttpResponse(template.render(context, request))</code></pre><p id="ebd3aece-830c-4152-8b98-6c8e0ecebba5" class="">上述代码的作用是，载入 <code><strong>polls/index.html</strong></code> 模板文件，并且向它传递一个上下文(context)。这个上下文是一个字典，它将模板内的变量映射为 Python 对象。</p><p id="af0af2de-a51e-4b01-9c6a-003de7920361" class="">用你的浏览器访问 &quot;/polls/&quot; ，你将会看见一个无序列表，列出了我们在 <a href="%E5%88%9D%E8%AF%95%20API%209a7b3eb93c3a4778b6452b117b62610a.html">初试API</a>中添加的 “What&#x27;s up” 投票问题，链接指向这个投票的详情页。</p><h3 id="299840be-3e8c-437a-b368-21536d717aed" class=""><strong>一个快捷函数： </strong><a href="https://docs.djangoproject.com/zh-hans/3.2/topics/http/shortcuts/#django.shortcuts.render"><code><strong>render()</strong></code></a></h3><p id="8ea6ea1e-30ff-414b-b957-257ab43243a3" class="">「载入模板，填充上下文，再返回由它生成的 <code><strong>HttpResponse</strong></code> 对象」是一个非常常用的操作流程。于是 Django 提供了一个快捷函数，我们用它来重写 <code><strong>index()</strong></code> 视图：</p><pre id="12929e34-15b4-44cd-9f01-1821f0d3df34" class="code code-wrap"><code>fromdjango.shortcutsimport render
+
+from.modelsimport Question
+
+
+def index(request):
+    latest_question_list = Question.objects.order_by(&#x27;-pub_date&#x27;)[:5]
+    context = {&#x27;latest_question_list&#x27;: latest_question_list}
+return render(request, &#x27;polls/index.html&#x27;, context)</code></pre><p id="00b0eccc-f041-4b6f-b1bb-dd5cc8e37e0f" class=""><code>render()</code>函数的第一个参数是请求对象，第二个参数是模板名称，第三个参数是可选的字典。它返回给定上下文呈现的模板中的<code>HttpResponse对象</code>。</p><h2 id="b837a104-1258-4ac2-a798-5ef4aabb7c29" class="">抛出 404 错误</h2><p id="8c02be49-b250-4945-a973-0cb3d8493527" class="">现在，我们来处理投票详情视图——它会显示指定投票的问题标题。下面是这个视图的代码：</p><pre id="3c5b36b1-d51a-436f-a007-87c71e7a84ee" class="code code-wrap"><code>fromdjango.httpimport Http404
+fromdjango.shortcutsimport render
+
+from.modelsimport Question
+# ...def detail(request, question_id):
+try:
+        question = Question.objects.get(pk=question_id)
+except Question.DoesNotExist:
+raise Http404(&quot;Question does not exist&quot;)
+return render(request, &#x27;polls/detail.html&#x27;, {&#x27;question&#x27;: question})</code></pre><p id="7ecab3ab-868c-4e94-9cc6-9e20c84850ad" class="">这里有个新原则：如果指定问题 ID 所对应的问题不存在，这个视图就会抛出一个 <a href="https://docs.djangoproject.com/zh-hans/3.2/topics/http/views/#django.http.Http404"><code><strong>Http404</strong></code></a> 异常。</p><p id="73d50993-0b1d-4ed0-a8e1-deac20b96f11" class="">我们稍后再讨论你需要在 <code><strong>polls/detail.html</strong></code> 里输入什么，但是如果你想试试上面这段代码是否正常工作的话，你可以暂时把下面这段输进去：<code>{{ question }}</code>（polls/templates/polls/detail.html）</p><h3 id="71ea762a-c768-4537-ba28-8141851d50e6" class=""><strong>一个快捷函数： </strong><a href="https://docs.djangoproject.com/zh-hans/3.2/topics/http/shortcuts/#django.shortcuts.get_object_or_404"><code><strong>get_object_or_404()</strong></code></a></h3><p id="8349d0a3-3481-410f-9b03-a42ea11de6e4" class="">尝试用 <a href="https://docs.djangoproject.com/zh-hans/3.2/ref/models/querysets/#django.db.models.query.QuerySet.get"><code><strong>get()</strong></code></a> 函数获取一个对象，如果不存在就抛出 <a href="https://docs.djangoproject.com/zh-hans/3.2/topics/http/views/#django.http.Http404"><code><strong>Http404</strong></code></a> 错误也是一个普遍的流程。Django 也提供了一个快捷函数，下面是修改后的详情 <code><strong>detail()</strong></code> 视图代码：</p><pre id="5d8fc022-aeb7-46bb-ba55-41d91ce8eef5" class="code code-wrap"><code>fromdjango.shortcutsimport get_object_or_404, render
+
+from.modelsimport Question
+# ...def detail(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+return render(request, &#x27;polls/detail.html&#x27;, {&#x27;question&#x27;: question})</code></pre><p id="8270c1ca-03af-40d4-87dd-e59b31932f6c" class="">也有 <a href="https://docs.djangoproject.com/zh-hans/3.2/topics/http/shortcuts/#django.shortcuts.get_list_or_404"><code><strong>get_list_or_404()</strong></code></a> 函数，工作原理和 <a href="https://docs.djangoproject.com/zh-hans/3.2/topics/http/shortcuts/#django.shortcuts.get_object_or_404"><code><strong>get_object_or_404()</strong></code></a> 一样，除了 <a href="https://docs.djangoproject.com/zh-hans/3.2/ref/models/querysets/#django.db.models.query.QuerySet.get"><code><strong>get()</strong></code></a> 函数被换成了 <a href="https://docs.djangoproject.com/zh-hans/3.2/ref/models/querysets/#django.db.models.query.QuerySet.filter"><code><strong>filter()</strong></code></a> 函数。如果列表为空的话会抛出 <a href="https://docs.djangoproject.com/zh-hans/3.2/topics/http/views/#django.http.Http404"><code><strong>Http404</strong></code></a> 异常。</p><h2 id="2366c95c-9a4f-4612-8df9-3b531fa88ba6" class="">使用模板系统</h2><p id="86e55953-cc84-45db-acbd-1278f15c9bd6" class="">回过头去看看我们的 <code><strong>detail()</strong></code> 视图。它向模板传递了上下文变量 <code><strong>question</strong></code> 。下面是 <code><strong>polls/detail.html</strong></code> 模板里正式的代码：</p><pre id="6cb176c5-3e69-473e-b3b5-f86c83267eba" class="code code-wrap"><code>&lt;h1&gt;{{ question.question_text }}&lt;/h1&gt;
+&lt;ul&gt;
+{%for choicein question.choice_set.all %}
+    &lt;li&gt;{{ choice.choice_text }}&lt;/li&gt;
+{%endfor %}
+&lt;/ul&gt;</code></pre><p id="afbca0a0-724f-4e36-86e2-fd1d350115fb" class="">模板系统统一使用点符号来访问变量的属性。在示例 <code><strong>{{ question.question_text }}</strong></code> 中，首先 Django 尝试对 <code><strong>question</strong></code> 对象使用字典查找（也就是使用 obj.get(str) 操作），如果失败了就尝试属性查找（也就是 obj.str 操作），结果是成功了。如果这一操作也失败的话，将会尝试列表查找（也就是 obj[int] 操作）。</p><p id="91437856-fbde-45af-a30c-25283d441e22" class="">在 <a href="https://docs.djangoproject.com/zh-hans/3.2/ref/templates/builtins/#std:templatetag-for"><code><strong>{% for %}</strong></code></a> 循环中发生的函数调用：<code><strong>question.choice_set.all</strong></code> 被解释为 Python 代码 <code><strong>question.choice_set.all()</strong></code> ，将会返回一个可迭代的 <code><strong>Choice</strong></code> 对象，这一对象可以在 <a href="https://docs.djangoproject.com/zh-hans/3.2/ref/templates/builtins/#std:templatetag-for"><code><strong>{% for %}</strong></code></a> 标签内部使用。</p><p id="a8487c05-18f4-4fb8-b063-8a55724ea4bb" class="">查看 <a href="https://docs.djangoproject.com/zh-hans/3.2/topics/templates/">模板指南</a> 可以了解关于模板的更多信息。</p><h2 id="a626f3cf-bcdb-4964-bec3-9d37bbf812fb" class="">去除模板中的硬编码 URL</h2><p id="ce48d76f-7e38-4847-b9e2-50d82f5ede31" class="">还记得吗，我们在 <code><strong>polls/index.html</strong></code> 里编写投票链接时，链接是硬编码的：<code>&lt;li&gt;&lt;a href=&quot;/polls/{{ question.id }}/&quot;&gt;{{ question.question_text }}&lt;/a&gt;&lt;/li&gt;</code></p><p id="6724ab25-f15f-4836-bb63-dc8ce49bfad9" class="">问题在于，硬编码和强耦合的链接，对于一个包含很多应用的项目来说，修改起来是十分困难的。然而，因为你在 <code><strong>polls.urls</strong></code> 的 <a href="https://docs.djangoproject.com/zh-hans/3.2/ref/urls/#django.conf.urls.url"><code><strong>url()</strong></code></a> 函数中通过 name 参数为 URL 定义了名字，你可以使用 <code><strong>{% url %}</strong></code> 标签代替它：<code>&lt;li&gt;&lt;a href=&quot;{% url &#x27;detail&#x27; question.id %}&quot;&gt;{{ question.question_text }}&lt;/a&gt;&lt;/li&gt;</code></p><p id="bef0dc85-dc5a-4e2a-a165-78e097252301" class="">这个标签的工作方式是在 <code><strong>polls.urls</strong></code> 模块的 URL 定义中寻具有指定名字的条目。你可以回忆一下，具有名字 &#x27;detail&#x27; 的 URL 是在如下语句中定义的：</p><pre id="946748ad-d084-41fc-812c-2f3b7b05772f" class="code code-wrap"><code>...
+# &#x27;name&#x27;值由{% url %}模板标签调用
+path(&#x27;&lt;int:question_id&gt;/&#x27;, views.detail, name=&#x27;detail&#x27;),
+...</code></pre><h2 id="1e367ebc-fce1-42ab-8954-b3d47bac522e" class="">为 URL 名称添加命名空间</h2><p id="76b49310-b270-4d8f-bb59-99a0238b6df7" class="">教程项目只有一个应用，<code><strong>polls</strong></code> 。在一个真实的 Django 项目中，可能会有五个，十个，二十个，甚至更多应用。Django 如何分辨重名的 URL 呢？举个例子，<code><strong>polls</strong></code> 应用有 <code><strong>detail</strong></code> 视图，可能另一个博客应用也有同名的视图。Django 如何知道 <code><strong>{% url %}</strong></code> 标签到底对应哪一个应用的 URL 呢？</p><p id="5fdaab07-7cda-4eb8-89ca-3d6bb9f2b873" class="">答案是：在根 URLconf 中添加命名空间。在 <code><strong>polls/urls.py</strong></code> 文件中稍作修改，加上 <code><strong>app_name</strong></code> 设置命名空间：</p><pre id="ce302438-a8e2-4185-b9e2-555b9658deda" class="code code-wrap"><code>fromdjango.urlsimport path
+
+from.import views
+
+app_name = &#x27;polls&#x27;
+urlpatterns = [
+    path(&#x27;&#x27;, views.index, name=&#x27;index&#x27;),
+    path(&#x27;&lt;int:question_id&gt;/&#x27;, views.detail, name=&#x27;detail&#x27;),
+    path(&#x27;&lt;int:question_id&gt;/results/&#x27;, views.results, name=&#x27;results&#x27;),
+    path(&#x27;&lt;int:question_id&gt;/vote/&#x27;, views.vote, name=&#x27;vote&#x27;),
+]</code></pre><p id="a469cde2-41fc-451a-8951-87636ea1bf91" class="">现在，编辑 <code><strong>polls/index.html</strong></code> 文件，从：</p><p id="c8f21a80-8a12-4d15-b3ed-590188995304" class=""><code>&lt;li&gt;&lt;a href=&quot;{% url &#x27;detail&#x27; question.id %}&quot;&gt;{{ question.question_text }}&lt;/a&gt;&lt;/li&gt;</code></p><p id="e3a1a62a-79b1-4441-9e1e-7a661de14a06" class="">修改为指向具有命名空间的详细视图：</p><p id="08fc60c7-16cc-4791-86ec-ea7f4b740aa1" class=""><strong><code>&lt;li&gt;&lt;a href=&quot;{% url &#x27;polls:detail&#x27; question.id %}&quot;&gt;{{ question.question_text }}&lt;/a&gt;&lt;/li&gt;</code></strong></p><p id="e6242124-ec19-4838-96c1-73f3533a91aa" class="">
+</p><p id="fa88a024-60b4-423a-80f2-0d6c664d6390" class="">下一部分：<a href="%E8%A1%A8%E5%8D%95%E5%A4%84%E7%90%86%E5%92%8C%E9%80%9A%E7%94%A8%E8%A7%86%E5%9B%BE%209dbc28beb3d7474cbac149dd6c85c0fe.html">表单处理和通用视图</a></p><p id="a898d5e3-e34c-429c-ad5a-ee54d9cfae84" class="">
+</p></div></article></body></html>
