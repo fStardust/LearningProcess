@@ -1,0 +1,822 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>如何测试</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+}
+
+.simple-table-header {
+	background: rgb(247, 246, 243);
+	color: black;
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(145, 145, 142, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(187, 132, 108, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(215, 129, 58, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 148, 51, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(108, 155, 125, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(91, 151, 189, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(167, 130, 195, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(205, 116, 159, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(225, 111, 100, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(145, 145, 142, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(187, 132, 108, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(215, 129, 58, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 148, 51, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(108, 155, 125, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(91, 151, 189, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(167, 130, 195, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(205, 116, 159, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(225, 111, 100, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="18dcb023-1a43-45da-bc72-a1343604e861" class="page sans"><header><h1 class="page-title">如何测试</h1></header><div class="page-body"><nav id="2ae35270-9412-41d5-ab02-11cbdd2664c2" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#14a3ee0c-458d-4ad6-ad0e-8c11eba2845c">自动化测试简介</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#b7dbf4af-71af-48b7-a653-13751f01c45d"><strong>自动化测试是什么？</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#1d310a1b-2bf2-47ae-9bc6-b65f2c2d33ef"><strong>为什么你需要写测试</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#893d06d2-9398-425b-a383-dd1d21625547"><strong>测试将节约你的时间</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#2b08daaa-8d6e-4687-813b-4c06ab3cc1c3"><strong>测试不仅能发现错误，而且能预防错误</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#dbd29ad3-adba-4557-885b-b0c99c0f70fa"><strong>测试使你的代码更有吸引力</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#917c4393-d690-4fee-94e6-920a43b5d190"><strong>测试有利于团队协作</strong></a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#ab92a717-ebe8-45d2-88e8-2c59a83aa73a">基础测试策略</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#5486e73f-26d2-4519-a7fe-0d7c029ab4dc">开始写我们的第一个测试</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#27b450fe-a63c-4cdc-abf5-d5588acfa781"><strong>首先得有个 Bug</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#77aedd32-2e64-438f-a5dd-9fa5d47e1caa"><strong>创建一个测试来暴露这个 bug</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#67b359b2-df4d-48fb-bde4-e474729cb506"><strong>运行测试</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#a9added0-539a-4f78-80a7-9ced03149121"><strong>修复这个 bug</strong><a href="https://docs.djangoproject.com/zh-hans/3.2/intro/tutorial05/#fixing-the-bug"><strong>¶</strong></a></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#7f4cec0c-6c9f-4f71-bf79-746e6b24a091"><strong>更全面的测试</strong></a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#f926d4f5-7bea-4049-9ee7-475f959660c0">测试视图</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#577821be-9de3-4994-a0b9-925a1d0153a8"><strong>针对视图的测试</strong><a href="https://docs.djangoproject.com/zh-hans/3.2/intro/tutorial05/#a-test-for-a-view"><strong>¶</strong></a></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#44854e24-8f1e-45be-b38c-71ed9360e297"><strong>Django 测试工具之 Client</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#0b221ed9-1c8f-4706-a995-9b03a7125856"><strong>改善视图代码</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#8d51feae-1050-43b7-8565-c6f521cd1fcc"><strong>测试新视图</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#a17e7312-9812-47d0-bb81-f6fd10f34f9e"><strong>测试 </strong><code><strong>DetailView</strong></code></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#775f89b5-c5a2-412b-bab3-ba2d8158a22d"><strong>更多的测试思路</strong><a href="https://docs.djangoproject.com/zh-hans/3.2/intro/tutorial05/#ideas-for-more-tests"><strong>¶</strong></a></a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#5ec1c033-1fa2-453a-aa2e-0d4353e3b312">当需要测试的时候，测试用例越多越好<a href="https://docs.djangoproject.com/zh-hans/3.2/intro/tutorial05/#when-testing-more-is-better"><strong>¶</strong></a></a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#ea5134ff-9e37-4867-a778-830786f4107f">深入代码测试</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#7ab0c231-f425-4a6a-ac03-c6407d348ccc">接下来要做什么？</a></div></nav><h2 id="14a3ee0c-458d-4ad6-ad0e-8c11eba2845c" class="">自动化测试简介</h2><h3 id="b7dbf4af-71af-48b7-a653-13751f01c45d" class=""><strong>自动化测试是什么？</strong></h3><p id="b3bbb01b-338f-4751-be5e-5715f211e53e" class="">测试代码，是用来检查你的代码能否正常运行的程序。</p><p id="d277c6c1-3747-443e-a96e-6984400ab5e6" class="">测试在不同的层次中都存在。有些测试只关注某个很小的细节（某个模型的某个方法的返回值是否满足预期？），而另一些测试可能检查对某个软件的一系列操作（<em>某一用户输入序列是否造成了预期的结果？</em>）。其实这和我们在 <a href="Django%20%E4%BB%8B%E7%BB%8D%2034804764bbe9482ab8aeda514b129327.html">Django介绍</a>，里做的并没有什么不同，我们使用 <a href="https://docs.djangoproject.com/zh-hans/3.2/ref/django-admin/#django-admin-shell"><code><strong>shell</strong></code></a> 来测试某一方法的功能，或者运行某个应用并输入数据来检查它的行为。</p><p id="3c6e3033-1a95-44dc-aaee-d359d9b7b4ae" class="">真正不同的地方在于，<em>自动化</em> 测试是由某个系统帮你自动完成的。当你创建好了一系列测试，每次修改应用代码后，就可以自动检查出修改后的代码是否还像你曾经预期的那样正常工作。你不需要花费大量时间来进行手动测试。</p><h3 id="1d310a1b-2bf2-47ae-9bc6-b65f2c2d33ef" class=""><strong>为什么你需要写测试</strong></h3><p id="7be4146a-298d-4c30-b844-9235dc1bd824" class="">但是，为什么需要测试呢？又为什么是现在呢？</p><p id="4a6b3a84-2ab2-4021-b166-785134bca67c" class="">你可能觉得学 Python/Django 对你来说已经很满足了，再学一些新东西的话看起来有点负担过重并且没什么必要。毕竟，我们的投票应用看起来已经完美工作了。写一些自动测试并不能让它工作的更好。如果写一个投票应用是你想用 Django 完成的唯一工作，那你确实没必要学写测试。但是如果你还想写更复杂的项目，现在就是学习测试写法的最好时机了。</p><h3 id="893d06d2-9398-425b-a383-dd1d21625547" class=""><strong>测试将节约你的时间</strong></h3><p id="340f6c82-f663-41fa-acd3-10f11405efa4" class="">在某种程度上，能够「判断出代码是否正常工作」的测试，就称得上是个令人满意的了。在更复杂的应用程序中，组件之间可能会有数十个复杂的交互。</p><p id="af4ede70-36bd-44b3-92d9-6636f1278fa4" class="">对其中某一组件的改变，也有可能会造成意想不到的结果。判断「代码是否正常工作」意味着你需要用大量的数据来完整的测试全部代码的功能，以确保你的小修改没有对应用整体造成破坏——这太费时间了。</p><p id="f1bdfb35-d136-4ee8-81ea-2275ed864bf7" class="">尤其是当你发现自动化测试能在几秒钟之内帮你完成这件事时，就更会觉得手动测试实在是太浪费时间了。当某人写出错误的代码时，自动化测试还能帮助你定位错误代码的位置。</p><p id="4ca6d575-b2a1-4110-9887-9f27f2322403" class="">有时候你会觉得，和富有创造性和生产力的业务代码比起来，编写枯燥的测试代码实在是太无聊了，特别是当你知道你的代码完全没有问题的时候。</p><p id="f5f15f7e-3d14-4fe1-815a-4824496585c0" class="">然而，编写测试还是要比花费几个小时手动测试你的应用，或者为了找到某个小错误而胡乱翻看代码要有意义的多。</p><h3 id="2b08daaa-8d6e-4687-813b-4c06ab3cc1c3" class=""><strong>测试不仅能发现错误，而且能预防错误</strong></h3><p id="34d96417-a195-4c32-b9fb-5a9c77f992d7" class="">「测试是开发的对立面」，这种思想是不对的。</p><p id="fdd07d3c-ebee-43cd-b0be-eddb30f01135" class="">如果没有测试，整个应用的行为意图会变得更加的不清晰。甚至当你在看自己写的代码时也是这样，有时候你需要仔细研读一段代码才能搞清楚它有什么用。</p><p id="ce3c79f4-49a4-48ad-a6a0-fecfc407a012" class="">而测试的出现改变了这种情况。测试就好像是从内部仔细检查你的代码，当有些地方出错时，这些地方将会变得很显眼——<em>就算你自己没有意识到那里写错了</em>。</p><h3 id="dbd29ad3-adba-4557-885b-b0c99c0f70fa" class=""><strong>测试使你的代码更有吸引力</strong></h3><p id="f243ef67-bd8f-404c-b6e5-a22aaf2634e0" class="">你也许遇到过这种情况：你编写了一个绝赞的软件，但是其他开发者看都不看它一眼，因为它缺少测试。没有测试的代码不值得信任。 Django 最初开发者之一的 Jacob Kaplan-Moss 说过：“项目规划时没有包含测试是不科学的。”</p><p id="9892ccb5-57a1-43a0-b4f8-10dc6bf96197" class="">其他的开发者希望在正式使用你的代码前看到它通过了测试，这是你需要写测试的另一个重要原因。</p><h3 id="917c4393-d690-4fee-94e6-920a43b5d190" class=""><strong>测试有利于团队协作</strong></h3><p id="c12f970a-7fae-4620-8451-f6db254d75c4" class="">前面的几点都是从单人开发的角度来说的。复杂的应用可能由团队维护。测试的存在保证了协作者不会不小心破坏了了你的代码（也保证你不会不小心弄坏他们的）。如果你想作为一个 Django 程序员谋生的话，你必须擅长编写测试！</p><h2 id="ab92a717-ebe8-45d2-88e8-2c59a83aa73a" class="">基础测试策略</h2><p id="14faba0a-9d4b-412c-a4c6-5a1644f73e35" class="">有好几种不同的方法可以写测试。</p><p id="4d689403-bf44-49d8-b58e-8045c800a2ba" class="">一些开发者遵循 &quot;<a href="https://en.wikipedia.org/wiki/Test-driven_development">测试驱动</a>&quot; 的开发原则，他们在写代码之前先写测试。这种方法看起来有点反直觉，但事实上，这和大多数人日常的做法是相吻合的。我们会先描述一个问题，然后写代码来解决它。「测试驱动」的开发方法只是将问题的描述抽象为了 Python 的测试样例。</p><p id="7b954b0c-ab07-432f-bd64-d45522bc6bd7" class="">更普遍的情况是，一个刚接触自动化测试的新手更倾向于先写代码，然后再写测试。虽然提前写测试可能更好，但是晚点写起码也比没有强。</p><p id="6c9e8dcc-4045-43f4-9223-883091db8d8b" class="">有时候很难决定从哪里开始下手写测试。如果你才写了几千行 Python 代码，选择从哪里开始写测试确实不怎么简单。如果是这种情况，那么在你下次修改代码（比如加新功能，或者修复 Bug）之前写个测试是比较合理且有效的。</p><p id="c5db5efb-8480-4808-aab6-ff02d6d5a173" class="">所以，我们现在就开始写吧。</p><h2 id="5486e73f-26d2-4519-a7fe-0d7c029ab4dc" class="">开始写我们的第一个测试</h2><h3 id="27b450fe-a63c-4cdc-abf5-d5588acfa781" class=""><strong>首先得有个 Bug</strong></h3><p id="a20f6fec-7f14-45af-a689-1afd102730e5" class="">幸运的是，我们的 <code><strong>polls</strong></code> 应用现在就有一个小 bug 需要被修复：我们的要求是如果 Question 是在一天之内发布的， <code><strong>Question.was_published_recently()</strong></code> 方法将会返回 <code><strong>True</strong></code> ，然而现在这个方法在 <code><strong>Question</strong></code> 的 <code><strong>pub_date</strong></code> 字段比当前时间还晚时也会返回 True（这是个 Bug）。</p><p id="009a7361-d87c-45b4-ab3a-0755d91a3251" class="">用djadmin:<a href="https://docs.djangoproject.com/zh-hans/3.2/intro/tutorial05/#id1">`</a>shell`命令确认一下这个方法的日期bug<code><strong>$ </strong></code><code>python manage.py shell</code></p><pre id="2c65ca25-0825-43c5-8952-de3c727fc7eb" class="code code-wrap"><code>&gt;&gt;&gt;import datetime
+&gt;&gt;&gt;from django.utils import timezone
+&gt;&gt;&gt;from polls.models import Question
+&gt;&gt;&gt;# create a Question instance with pub_date 30 days in the future
+&gt;&gt;&gt;future_question = Question(pub_date=timezone.now() + datetime.timedelta(days=30))
+&gt;&gt;&gt;# was it published recently?
+&gt;&gt;&gt;future_question.was_published_recently()
+True</code></pre><p id="ca18f6f0-61fd-44bf-bf31-24b4d431fb37" class="">因为将来发生的是肯定不是最近发生的，所以代码明显是错误的。</p><h3 id="77aedd32-2e64-438f-a5dd-9fa5d47e1caa" class=""><strong>创建一个测试来暴露这个 bug</strong></h3><p id="aa123c6d-829e-439d-8c8a-888dfe8c3cfe" class="">我们刚刚在 <a href="https://docs.djangoproject.com/zh-hans/3.2/ref/django-admin/#django-admin-shell"><code><strong>shell</strong></code></a> 里做的测试也就是自动化测试应该做的工作。所以我们来把它改写成自动化的吧。</p><p id="5b90440b-1ce1-417a-b1d6-106cc1d5e42e" class="">按照惯例，Django 应用的测试应该写在应用的 <code><strong>tests.py</strong></code> 文件里。测试系统会自动的在所有以 <code><strong>tests</strong></code> 开头的文件里寻找并执行测试代码。</p><p id="862bb674-9ca7-4822-bd97-81eb4f03511e" class="">将下面的代码写入 <code><strong>polls</strong></code> 应用里的 <code><strong>tests.py</strong></code> 文件内：</p><pre id="f4340e92-3e5a-4eab-881d-0b391c7e1e4f" class="code"><code>import datetime
+
+from django.test import TestCase
+from django.utils import timezone
+
+from .models import Question
+
+
+class QuestionModelTests(TestCase):
+
+    def test_was_published_recently_with_future_question(self):
+        &quot;&quot;&quot;
+				在设定的pub_date时间后创建的问题，调用was_publhed_recently()会返回False。
+        &quot;&quot;&quot;
+        time = timezone.now() + datetime.timedelta(days=30)
+        future_question = Question(pub_date=time)
+        self.assertIs(future_question.was_published_recently(), False)</code></pre><p id="d03d02de-2742-4119-be11-538a5508c828" class="">我们创建了一个 <a href="https://docs.djangoproject.com/zh-hans/3.2/topics/testing/tools/#django.test.TestCase"><code><strong>django.test.TestCase</strong></code></a> 的子类，并添加了一个方法，此方法创建一个 <code><strong>pub_date</strong></code> 时未来某天的 <code><strong>Question</strong></code> 实例。然后检查它的 <code><strong>was_published_recently()</strong></code> 方法的返回值——它 <em>应该</em> 是 False。</p><h3 id="67b359b2-df4d-48fb-bde4-e474729cb506" class=""><strong>运行测试</strong></h3><p id="587efb18-92b4-4207-bd11-4d2417cfb52a" class="">在终端中，我们通过输入以下代码运行测试:<code>python manage.py test polls</code></p><p id="2b54b8f9-ebaa-4360-a334-3f5aed24a081" class="">你将会看到运行结果:</p><figure id="88de30c5-93e5-48ad-886e-414a75d1b4b3" class="image"><a href="%E5%A6%82%E4%BD%95%E6%B5%8B%E8%AF%95%2018dcb0231a4345dabc72a1343604e861/Untitled.png"><img style="width:1246px" src="%E5%A6%82%E4%BD%95%E6%B5%8B%E8%AF%95%2018dcb0231a4345dabc72a1343604e861/Untitled.png"/></a></figure><p id="e4732327-baea-4bec-9217-5e33a1680c5b" class="">发生了什么呢？以下是自动化测试的运行过程：</p><ul id="b00e722c-0ef3-4d47-b64e-9e39461722ec" class="bulleted-list"><li style="list-style-type:disc"><code><strong>python manage.py test polls</strong></code> 将会寻找 <code><strong>polls</strong></code> 应用里的测试代码</li></ul><ul id="f0975378-b9bd-4b51-ba2b-6e625dd77de5" class="bulleted-list"><li style="list-style-type:disc">它找到了 <a href="https://docs.djangoproject.com/zh-hans/3.2/topics/testing/tools/#django.test.TestCase"><code><strong>django.test.TestCase</strong></code></a> 的一个子类</li></ul><ul id="933bf50a-2404-4367-b72c-076c5cd27267" class="bulleted-list"><li style="list-style-type:disc">它创建一个特殊的数据库供测试使用</li></ul><ul id="e9141d46-275e-4da3-aa56-126b859eff60" class="bulleted-list"><li style="list-style-type:disc">它在类中寻找测试方法——以 <code><strong>test</strong></code> 开头的方法。</li></ul><ul id="09eff831-930e-4671-abdf-354659a6276d" class="bulleted-list"><li style="list-style-type:disc">在 <code><strong>test_was_published_recently_with_future_question</strong></code> 方法中，它创建了一个 <code><strong>pub_date</strong></code> 值为 30 天后的 <code><strong>Question</strong></code> 实例。</li></ul><ul id="7aab069f-885f-4b63-98df-1fe724bdc43b" class="bulleted-list"><li style="list-style-type:disc">接着使用 <code><strong>assertls()</strong></code> 方法，发现 <code><strong>was_published_recently()</strong></code> 返回了 <code><strong>True</strong></code>，而我们期望它返回 <code><strong>False</strong></code>。</li></ul><p id="dca25215-bc66-427f-a29d-72327e5c57ed" class="">测试系统通知我们哪些测试样例失败了，和造成测试失败的代码所在的行号。</p><h3 id="a9added0-539a-4f78-80a7-9ced03149121" class=""><strong>修复这个 bug</strong><a href="https://docs.djangoproject.com/zh-hans/3.2/intro/tutorial05/#fixing-the-bug"><strong>¶</strong></a></h3><p id="37ba09be-3cd4-411c-9c94-681b07a7ecf9" class="">我们早已知道，当 <code><strong>pub_date</strong></code> 为未来某天时， <code><strong>Question.was_published_recently()</strong></code> 应该返回 <code><strong>False</strong></code>。我们修改 <code><strong>models.py</strong></code> 里的方法，让它只在日期是过去式的时候才返回 <code><strong>True</strong></code>：</p><pre id="3717ae7f-d2b5-4e02-a4f6-16223624b0d8" class="code"><code>def was_published_recently(self):
+    now = timezone.now()
+    return now - datetime.timedelta(days=1) &lt;= self.pub_date &lt;= now</code></pre><h3 id="7f4cec0c-6c9f-4f71-bf79-746e6b24a091" class=""><strong>更全面的测试</strong></h3><p id="e43b8a2c-2ecc-42be-98ea-ca27b49c88f4" class="">我们已经搞定一小部分了，现在可以考虑全面的测试 <code><strong>was_published_recently()</strong></code> 这个方法以确定它的安全性，然后就可以把这个方法稳定下来了。事实上，在修复一个 bug 时不小心引入另一个 bug 会是非常令人尴尬的。</p><p id="7633a424-a074-4c28-81fe-948ffe4e19c4" class="">我们在上次写的类里再增加两个测试，来更全面的测试这个方法：</p><pre id="9f24cdcf-967c-4067-911e-8aed66c24ab4" class="code"><code>def test_was_published_recently_with_old_question(self):
+    &quot;&quot;&quot;
+    was_published_recently() returns False for questions whose pub_date
+    is older than 1 day.
+    &quot;&quot;&quot;
+    time = timezone.now() - datetime.timedelta(days=1, seconds=1)
+    old_question = Question(pub_date=time)
+    self.assertIs(old_question.was_published_recently(), False)
+
+def test_was_published_recently_with_recent_question(self):
+    &quot;&quot;&quot;
+    was_published_recently() returns True for questions whose pub_date
+    is within the last day.
+    &quot;&quot;&quot;
+    time = timezone.now() - datetime.timedelta(hours=23, minutes=59, seconds=59)
+    recent_question = Question(pub_date=time)
+    self.assertIs(recent_question.was_published_recently(), True)</code></pre><p id="939f5a80-03fa-4246-87f9-d63d52248997" class="">现在，我们有三个测试来确保 <code><strong>Question.was_published_recently()</strong></code> 方法对于过去，最近，和将来的三种情况都返回正确的值。</p><p id="292fbdb7-7c67-4b1e-b5fd-9d5e5b42625d" class="">再次申明，尽管 <code><strong>polls</strong></code> 现在是个小型的应用，但是无论它以后变得到多么复杂，无论他和其他代码如何交互，我们可以在一定程度上保证我们为之编写测试的方法将按照预期的方式运行。</p><h2 id="f926d4f5-7bea-4049-9ee7-475f959660c0" class="">测试视图</h2><p id="ba8b16ca-9eec-4737-bd88-221a31bd65a2" class="">我们的投票应用对所有问题都一视同仁：它将会发布所有的问题，也包括那些 <code><strong>pub_date</strong></code> 字段值是未来的问题。我们应该改善这一点。如果 <code><strong>pub_date</strong></code> 设置为未来某天，这应该被解释为这个问题将在所填写的时间点才被发布，而在之前是不可见的。</p><h3 id="577821be-9de3-4994-a0b9-925a1d0153a8" class=""><strong>针对视图的测试</strong><a href="https://docs.djangoproject.com/zh-hans/3.2/intro/tutorial05/#a-test-for-a-view"><strong>¶</strong></a></h3><p id="207137b8-630e-48e0-8314-d383e10aa4e6" class="">为了修复上述 bug ，我们这次先编写测试，然后再去改代码。事实上，这是一个「测试驱动」开发模式的实例，但其实这两者的顺序不太重要。</p><p id="5c45a20d-73c6-4a4d-b450-682ea2417ef3" class="">在我们的第一个测试中，我们关注代码的内部行为。我们通过模拟用户使用浏览器访问被测试的应用来检查代码行为是否符合预期。</p><p id="fadaf837-4764-4a6d-9e70-43ba36d715c0" class="">在我们动手之前，先看看需要用到的工具们。</p><h3 id="44854e24-8f1e-45be-b38c-71ed9360e297" class=""><strong>Django 测试工具之 Client</strong></h3><p id="11d06109-d430-476d-876a-39f061f1ca9e" class="">Django 提供了一个供测试使用的 <a href="https://docs.djangoproject.com/zh-hans/3.2/topics/testing/tools/#django.test.Client"><code><strong>Client</strong></code></a> 来模拟用户和视图层代码的交互。我们能在 <code><strong>tests.py</strong></code> 甚至是 <a href="https://docs.djangoproject.com/zh-hans/3.2/ref/django-admin/#django-admin-shell"><code><strong>shell</strong></code></a> 中使用它。</p><p id="d4ee8b37-1941-4965-92e9-f17bebe4302d" class="">我们依照惯例从 <a href="https://docs.djangoproject.com/zh-hans/3.2/ref/django-admin/#django-admin-shell"><code><strong>shell</strong></code></a> 开始，首先我们要做一些在 <code><strong>tests.py</strong></code> 里不是必须的准备工作。第一步是在 <a href="https://docs.djangoproject.com/zh-hans/3.2/ref/django-admin/#django-admin-shell"><code><strong>shell</strong></code></a> 中配置测试环境:<code><strong>$ </strong></code><code>python manage.py shell</code></p><pre id="95f718c3-131e-4026-b116-a670a620f198" class="code code-wrap"><code>&gt;&gt;&gt;from django.test.utils import setup_test_environment
+&gt;&gt;&gt;setup_test_environment()</code></pre><p id="3d75bec4-0934-4890-bb4f-137265a69ffe" class=""><a href="https://docs.djangoproject.com/zh-hans/3.2/topics/testing/advanced/#django.test.utils.setup_test_environment"><code><strong>setup_test_environment()</strong></code></a> 提供了一个模板渲染器，允许我们为 responses 添加一些额外的属性，例如 <code><strong>response.context</strong></code>，未安装此 app 无法使用此功能。注意，这个方法并 <em>不会</em> 配置测试数据库，所以接下来的代码将会在当前存在的数据库上运行，输出的内容可能由于数据库内容的不同而不同。如果你的 <code><strong>settings.py</strong></code> 中关于 <code><strong>TIME_ZONE</strong></code> 的设置不对，你可能无法获取到期望的结果。如果你之前忘了设置，在继续之前检查一下。</p><p id="1100c041-c0cc-47cf-b4fd-e5184be32692" class="">然后我们需要导入 <a href="https://docs.djangoproject.com/zh-hans/3.2/topics/testing/tools/#django.test.TestCase"><code><strong>django.test.TestCase</strong></code></a> 类（在后续 <code><strong>tests.py</strong></code> 的实例中我们将会使用 <a href="https://docs.djangoproject.com/zh-hans/3.2/topics/testing/tools/#django.test.TestCase"><code><strong>django.test.TestCase</strong></code></a> 类，这个类里包含了自己的 client 实例，所以不需要这一步）:</p><pre id="8d3ba4d7-d862-4b77-8ca3-41772ca5d0fb" class="code code-wrap"><code>&gt;&gt;&gt;from django.test import Client
+&gt;&gt;&gt;# create an instance of the client for our use
+&gt;&gt;&gt;client = Client()</code></pre><p id="bac547f4-34fd-44c9-8e6a-a68c1645bc31" class="">搞定了之后，我们可以要求 client 为我们工作了:</p><pre id="43bef8fb-d79a-4305-ae8d-b10ae9682be2" class="code code-wrap"><code>&gt;&gt;&gt;# get a response from &#x27;/&#x27;
+&gt;&gt;&gt;response = client.get(&#x27;/&#x27;)
+Not Found: /
+&gt;&gt;&gt;# we should expect a 404 from that address; if you instead see an
+&gt;&gt;&gt;# &quot;Invalid HTTP_HOST header&quot; error and a 400 response, you probably
+&gt;&gt;&gt;# omitted the setup_test_environment() call described earlier.
+&gt;&gt;&gt;response.status_code
+404
+&gt;&gt;&gt;# on the other hand we should expect to find something at &#x27;/polls/&#x27;
+&gt;&gt;&gt;# we&#x27;ll use &#x27;reverse()&#x27; rather than a hardcoded URL
+&gt;&gt;&gt;from django.urls import reverse
+&gt;&gt;&gt;response = client.get(reverse(&#x27;polls:index&#x27;))
+&gt;&gt;&gt;response.status_code
+200
+&gt;&gt;&gt;response.content
+b&#x27;\n    &lt;ul&gt;\n    \n        &lt;li&gt;&lt;a href=&quot;/polls/1/&quot;&gt;What&amp;#x27;s up?&lt;/a&gt;&lt;/li&gt;\n    \n    &lt;/ul&gt;\n\n&#x27;
+&gt;&gt;&gt;response.context[&#x27;latest_question_list&#x27;]
+&lt;QuerySet [&lt;Question: What&#x27;s up?&gt;]&gt;</code></pre><h3 id="0b221ed9-1c8f-4706-a995-9b03a7125856" class=""><strong>改善视图代码</strong></h3><p id="ea4c1af1-d786-4555-a578-c8235b1c5550" class="">现在的投票列表会显示将来的投票（ <code><strong>pub_date</strong></code> 值是未来的某天)。我们来修复这个问题。</p><p id="d54666e0-effb-4b82-be5f-ab992a36e321" class="">在 上一教程 里，我们介绍了基于 <a href="https://docs.djangoproject.com/zh-hans/3.2/ref/class-based-views/generic-display/#django.views.generic.list.ListView"><code><strong>ListView</strong></code></a> 的视图类：</p><pre id="973d52f4-9fc2-4b97-8a51-e89804a9fcbe" class="code"><code>class IndexView(generic.ListView):
+    template_name = &#x27;polls/index.html&#x27;
+    context_object_name = &#x27;latest_question_list&#x27;
+
+    def get_queryset(self):
+        &quot;&quot;&quot;Return the last five published questions.&quot;&quot;&quot;
+        return Question.objects.order_by(&#x27;-pub_date&#x27;)[:5]</code></pre><p id="6440681b-cb79-433a-88fc-54b8446390e7" class="">我们需要改进 <code><strong>get_queryset()</strong></code> 方法，让他它能通过将 Question 的 pub_data 属性与 <code><strong>timezone.now()</strong></code> 相比较来判断是否应该显示此 Question。首先我们需要一行 import 语句:<code><strong>from</strong></code><code> </code><code><strong>django.utils</strong></code><code> </code><code><strong>import</strong></code><code> timezone</code></p><p id="c8dc23c6-e38e-4d1c-856b-5605caa7af99" class="">然后我们把 <code><strong>get_queryset</strong></code> 方法改写成下面这样：</p><pre id="d792f7ee-e0f7-4c03-ab8a-b193bdeb4035" class="code"><code>def get_queryset(self):
+    &quot;&quot;&quot;
+    Return the last five published questions (not including those set to be
+    published in the future).
+    &quot;&quot;&quot;
+    return Question.objects.filter(
+        pub_date__lte=timezone.now()
+    ).order_by(&#x27;-pub_date&#x27;)[:5]</code></pre><h3 id="8d51feae-1050-43b7-8565-c6f521cd1fcc" class=""><strong>测试新视图</strong></h3><p id="993a954b-67fc-48ed-ab22-3efa7684d27d" class="">启动服务器、在浏览器中载入站点、创建一些发布时间在过去和将来的 <code><strong>Questions</strong></code> ，然后检验只有已经发布的 <code><strong>Questions</strong></code> 会展示出来，现在你可以对自己感到满意了。<em>你不想每次修改可能与这相关的代码时都重复这样做</em> —— 所以让我们基于以上 <a href="https://docs.djangoproject.com/zh-hans/3.2/ref/django-admin/#django-admin-shell"><code><strong>shell</strong></code></a> 会话中的内容，再编写一个测试。</p><p id="eaa645c5-3097-4fd2-a860-5bef7bb4408c" class="">将下面的代码添加到 <code><strong>polls/tests.py</strong></code> ：<code><strong>from</strong></code><code> </code><code><strong>django.urls</strong></code><code> </code><code><strong>import</strong></code><code> reverse</code></p><p id="197ad06e-3c2c-4309-b7f3-882dd9a1826a" class="">然后我们写一个公用的快捷函数用于创建投票问题，再为视图创建一个测试类：</p><pre id="016a93b0-a417-4c2b-bf87-6a742c5fc736" class="code"><code>def create_question(question_text, days):
+    &quot;&quot;&quot;
+    Create a question with the given `question_text` and published the
+    given number of `days` offset to now (negative for questions published
+    in the past, positive for questions that have yet to be published).
+    &quot;&quot;&quot;
+    time = timezone.now() + datetime.timedelta(days=days)
+    return Question.objects.create(question_text=question_text, pub_date=time)
+
+
+class QuestionIndexViewTests(TestCase):
+    def test_no_questions(self):
+        &quot;&quot;&quot;
+        If no questions exist, an appropriate message is displayed.
+        &quot;&quot;&quot;
+        response = self.client.get(reverse(&#x27;polls:index&#x27;))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, &quot;No polls are available.&quot;)
+        self.assertQuerysetEqual(response.context[&#x27;latest_question_list&#x27;], [])
+
+    def test_past_question(self):
+        &quot;&quot;&quot;
+        Questions with a pub_date in the past are displayed on the
+        index page.
+        &quot;&quot;&quot;
+        question = create_question(question_text=&quot;Past question.&quot;, days=-30)
+        response = self.client.get(reverse(&#x27;polls:index&#x27;))
+        self.assertQuerysetEqual(
+            response.context[&#x27;latest_question_list&#x27;],
+            [question],
+        )
+
+    def test_future_question(self):
+        &quot;&quot;&quot;
+        Questions with a pub_date in the future aren&#x27;t displayed on
+        the index page.
+        &quot;&quot;&quot;
+        create_question(question_text=&quot;Future question.&quot;, days=30)
+        response = self.client.get(reverse(&#x27;polls:index&#x27;))
+        self.assertContains(response, &quot;No polls are available.&quot;)
+        self.assertQuerysetEqual(response.context[&#x27;latest_question_list&#x27;], [])
+
+    def test_future_question_and_past_question(self):
+        &quot;&quot;&quot;
+        Even if both past and future questions exist, only past questions
+        are displayed.
+        &quot;&quot;&quot;
+        question = create_question(question_text=&quot;Past question.&quot;, days=-30)
+        create_question(question_text=&quot;Future question.&quot;, days=30)
+        response = self.client.get(reverse(&#x27;polls:index&#x27;))
+        self.assertQuerysetEqual(
+            response.context[&#x27;latest_question_list&#x27;],
+            [question],
+        )
+
+    def test_two_past_questions(self):
+        &quot;&quot;&quot;
+        The questions index page may display multiple questions.
+        &quot;&quot;&quot;
+        question1 = create_question(question_text=&quot;Past question 1.&quot;, days=-30)
+        question2 = create_question(question_text=&quot;Past question 2.&quot;, days=-5)
+        response = self.client.get(reverse(&#x27;polls:index&#x27;))
+        self.assertQuerysetEqual(
+            response.context[&#x27;latest_question_list&#x27;],
+            [question2, question1],
+        )</code></pre><p id="89ea1e7e-29e8-4d4e-9859-228c8184c809" class="">让我们更详细地看下以上这些内容。</p><p id="5f129051-fc1e-4927-bf13-b62932d5b9e4" class="">首先是一个快捷函数 <code><strong>create_question</strong></code>，它封装了创建投票的流程，减少了重复代码。</p><p id="814397a2-f403-43bf-bf2f-3ca4c072c1a9" class=""><code><strong>test_no_questions</strong></code> 方法里没有创建任何投票，它检查返回的网页上有没有 &quot;No polls are available.&quot; 这段消息和 <code><strong>latest_question_list</strong></code> 是否为空。注意到 <a href="https://docs.djangoproject.com/zh-hans/3.2/topics/testing/tools/#django.test.TestCase"><code><strong>django.test.TestCase</strong></code></a> 类提供了一些额外的 assertion 方法，在这个例子中，我们使用了 <a href="https://docs.djangoproject.com/zh-hans/3.2/topics/testing/tools/#django.test.SimpleTestCase.assertContains"><code><strong>assertContains()</strong></code></a> 和 <a href="https://docs.djangoproject.com/zh-hans/3.2/topics/testing/tools/#django.test.TransactionTestCase.assertQuerysetEqual"><code><strong>assertQuerysetEqual()</strong></code></a> 。</p><p id="f6ac10d0-bcd4-4d3d-8f70-8375b1ad2e74" class="">在 <code><strong>test_past_question</strong></code> 方法中，我们创建了一个投票并检查它是否出现在列表中。</p><p id="e6f376dc-8d5f-4b49-a916-8a3a36c5760f" class="">在 <code><strong>test_future_question</strong></code> 中，我们创建 <code><strong>pub_date</strong></code> 在未来某天的投票。数据库会在每次调用测试方法前被重置，所以第一个投票已经没了，所以主页中应该没有任何投票。</p><p id="14476062-7712-4df9-a55d-71bf4bbd5d8a" class="">剩下的那些也都差不多。实际上，测试就是假装一些管理员的输入，然后通过用户端的表现是否符合预期来判断新加入的改变是否破坏了原有的系统状态。</p><h3 id="a17e7312-9812-47d0-bb81-f6fd10f34f9e" class=""><strong>测试 </strong><code><strong>DetailView</strong></code></h3><p id="46eb7561-4a74-40d6-8c97-fb2f935f4bf5" class="">我们的工作似乎已经很完美了？不，还有一个问题：就算在发布日期时未来的那些投票不会在目录页 <em>index</em> 里出现，但是如果用户知道或者猜到正确的 URL ，还是可以访问到它们。所以我们得在 <code><strong>DetailView</strong></code> 里增加一些约束：</p><pre id="41ebc8be-95db-4faf-8040-6d07bcf8149f" class="code"><code>class DetailView(generic.DetailView):
+    ...
+    def get_queryset(self):
+        &quot;&quot;&quot;
+        Excludes any questions that aren&#x27;t published yet.
+        &quot;&quot;&quot;
+        return Question.objects.filter(pub_date__lte=timezone.now())</code></pre><p id="87e1654c-5514-4efa-bbbb-685d71cf05f5" class="">然后，我们应该增加一些测试来检验 <code><strong>pub_date</strong></code> 在过去的 <code><strong>Question</strong></code> 能够被显示出来，而 <code><strong>pub_date</strong></code> 在未来的则不可以：</p><pre id="e000cfd3-75ff-431c-b443-06d41e8158e6" class="code"><code>class QuestionDetailViewTests(TestCase):
+    def test_future_question(self):
+        &quot;&quot;&quot;
+        The detail view of a question with a pub_date in the future
+        returns a 404 not found.
+        &quot;&quot;&quot;
+        future_question = create_question(question_text=&#x27;Future question.&#x27;, days=5)
+        url = reverse(&#x27;polls:detail&#x27;, args=(future_question.id,))
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
+
+    def test_past_question(self):
+        &quot;&quot;&quot;
+        The detail view of a question with a pub_date in the past
+        displays the question&#x27;s text.
+        &quot;&quot;&quot;
+        past_question = create_question(question_text=&#x27;Past Question.&#x27;, days=-5)
+        url = reverse(&#x27;polls:detail&#x27;, args=(past_question.id,))
+        response = self.client.get(url)
+        self.assertContains(response, past_question.question_text)</code></pre><h3 id="775f89b5-c5a2-412b-bab3-ba2d8158a22d" class=""><strong>更多的测试思路</strong><a href="https://docs.djangoproject.com/zh-hans/3.2/intro/tutorial05/#ideas-for-more-tests"><strong>¶</strong></a></h3><p id="10d909c1-0747-46b7-aab7-df8bff1034ea" class="">我们应该给 <code><strong>ResultsView</strong></code> 也增加一个类似的 <code><strong>get_queryset</strong></code> 方法，并且为它创建测试。这和我们之前干的差不多，事实上，基本就是重复一遍。</p><p id="2c3f4f2d-587b-422d-af03-871b3b88af34" class="">我们还可以从各个方面改进投票应用，但是测试会一直伴随我们。比方说，在目录页上显示一个没有选项 <code><strong>Choices</strong></code> 的投票问题就没什么意义。我们可以检查并排除这样的投票题。测试可以创建一个没有选项的投票，然后检查它是否被显示在目录上。当然也要创建一个有选项的投票，然后确认它确实被显示了。</p><p id="99f24117-67cb-40ee-a584-3aebbd31261e" class="">恩，也许你想让管理员能在目录上看见未被发布的那些投票，但是普通用户看不到。不管怎么说，如果你想要增加一个新功能，那么同时一定要为它编写测试。不过你是先写代码还是先写测试那就随你了。</p><p id="61c22d61-46bf-40ab-b7bc-e5b959296b6f" class="">在未来的某个时刻，你一定会去查看测试代码，然后开始怀疑：「这么多的测试不会使代码越来越复杂吗？」。别着急，我们马上就会谈到这一点。</p><h2 id="5ec1c033-1fa2-453a-aa2e-0d4353e3b312" class="">当需要测试的时候，测试用例越多越好<a href="https://docs.djangoproject.com/zh-hans/3.2/intro/tutorial05/#when-testing-more-is-better"><strong>¶</strong></a></h2><p id="a864ff30-1f0e-44c8-b470-ff9ad65145fe" class="">貌似我们的测试多的快要失去控制了。按照这样发展下去，测试代码就要变得比应用的实际代码还要多了。而且测试代码大多都是重复且不优雅的，特别是在和业务代码比起来的时候，这种感觉更加明显。</p><p id="190118b8-d486-4f2e-9876-8b1bbfe11b15" class=""><strong>但是这没关系！</strong> 就让测试代码继续肆意增长吧。大部分情况下，你写完一个测试之后就可以忘掉它了。在你继续开发的过程中，它会一直默默无闻地为你做贡献的。</p><p id="42617025-6b92-4fb9-98af-75ff5c7e6a10" class="">但有时测试也需要更新。想象一下如果我们修改了视图，只显示有选项的那些投票，那么只前写的很多测试就都会失败。<em>但这也明确地告诉了我们哪些测试需要被更新</em>，所以测试也会测试自己。</p><p id="2aa07249-5a37-420e-a6f3-24d5b88289cd" class="">最坏的情况是，当你继续开发的时候，发现之前的一些测试现在看来是多余的。但是这也不是什么问题，多做些测试也 <em>不错</em>。</p><p id="d24f00de-423f-413e-9c6e-f0e69b42af03" class="">如果你对测试有个整体规划，那么它们就几乎不会变得混乱。下面有几条好的建议：</p><ul id="468d00db-c8d5-4481-a6d3-ae8e8a7462d8" class="bulleted-list"><li style="list-style-type:disc">对于每个模型和视图都建立单独的 <code><strong>TestClass</strong></code></li></ul><ul id="453b183a-11e0-44aa-9e51-003ffb791bc1" class="bulleted-list"><li style="list-style-type:disc">每个测试方法只测试一个功能</li></ul><ul id="9287dd1c-1c6a-4cfa-a6da-2f5d5e431e1b" class="bulleted-list"><li style="list-style-type:disc">给每个测试方法起个能描述其功能的名字</li></ul><h2 id="ea5134ff-9e37-4867-a778-830786f4107f" class="">深入代码测试</h2><p id="614527d2-e2a1-4b8c-a48e-ee30ee50f779" class="">在本教程中，我们仅仅是了解了测试的基础知识。你能做的还有很多，而且世界上有很多有用的工具来帮你完成这些有意义的事。</p><p id="9832f5a0-9d08-4ef1-a4ca-6f91716db354" class="">举个例子，在上述的测试中，我们已经从代码逻辑和视图响应的角度检查了应用的输出，现在你可以从一个更加 &quot;in-browser&quot; 的角度来检查最终渲染出的 HTML 是否符合预期，使用 Selenium 可以很轻松的完成这件事。这个工具不仅可以测试 Django 框架里的代码，还可以检查其他部分，比如说你的 JavaScript。它假装成是一个正在和你站点进行交互的浏览器，就好像有个真人在访问网站一样！Django 它提供了 <a href="https://docs.djangoproject.com/zh-hans/3.2/topics/testing/tools/#django.test.LiveServerTestCase"><code><strong>LiveServerTestCase</strong></code></a> 来和 Selenium 这样的工具进行交互。</p><p id="f00127a7-e3fc-423a-a235-5817db2b7283" class="">如果你在开发一个很复杂的应用的话，你也许想在每次提交代码时自动运行测试，也就是我们所说的持续集成 <a href="https://en.wikipedia.org/wiki/Continuous_integration">continuous integration</a> ，这样就能实现质量控制的自动化，起码是部分自动化。</p><p id="802d075d-3434-44e9-81a0-f473fcb894fa" class="">一个找出代码中未被测试部分的方法是检查代码覆盖率。它有助于找出代码中的薄弱部分和无用部分。如果你无法测试一段代码，通常说明这段代码需要被重构或者删除。想知道代码覆盖率和无用代码的详细信息，查看文档 <a href="https://docs.djangoproject.com/zh-hans/3.2/topics/testing/advanced/#topics-testing-code-coverage">集成 coverage.py</a> 获取详细信息。</p><p id="a89eb00a-9ade-4715-b3cc-babda9c07c3e" class="">文档 <a href="https://docs.djangoproject.com/zh-hans/3.2/topics/testing/">Django 中的测试</a> 里有关于测试的更多信息。</p><h2 id="7ab0c231-f425-4a6a-ac03-c6407d348ccc" class="">接下来要做什么？</h2><p id="ac344956-49dd-422f-a8d9-9326bb0b5a78" class="">如果你想深入了解测试，就去看 <a href="https://docs.djangoproject.com/zh-hans/3.2/topics/testing/">Django 中的测试</a> 。</p><p id="83bc7793-7ee0-4406-9e09-64c0a0ca2fc8" class="">当你已经比较熟悉测试 Django 视图的方法后，就可以继续阅读 下一部分 ，学习静态文件管理的相关知识。</p><p id="2523f51e-40ef-4e31-b25d-7b636a68f2f8" class="">
+</p><p id="3059a40f-266f-487c-98e6-2776cf8c9cf2" class="">下一部分：<a href="%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%20996c87a8dc934b4f85d8573aa0a47e67.html">静态文件管理</a></p><p id="232b3ec4-aaad-4fa5-83ce-d893d8154c83" class="">
+</p></div></article></body></html>
