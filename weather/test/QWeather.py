@@ -1,7 +1,6 @@
 import requests
-# import time
-import json
-from myKey import KEY
+import time
+from weather.myKey import KEY
 
 ''' official website  https://www.qweather.com '''
 '''      dev website  https://dev.qweather.com'''
@@ -84,8 +83,8 @@ if __name__ == '__main__':
     print(nDaysLater, '天后天气：', daily()[nDaysLater]['textDay'], daily()[nDaysLater]['tempMin'], '-',
           daily()[nDaysLater]['tempMax'], '°C')
 
-    today = daily()[0]
-    tomorrow = daily()[1]
+today = daily()[0]
+tomorrow = daily()[1]
 
 # 可以在服务器上运行的一点小设想
 while True:
@@ -97,7 +96,7 @@ while True:
                 print('明天有雨，通过邮件或啥的告诉我')
                 break  # 防止明天是 '暴雨到大暴雨' 两个雨字的天气
             else:  # else 其实没啥意义 ， 而且会执行多次
-                print('晴天')
+                print('什么也不干，继续循环')
 
         # 明天与今天温差过大提醒
         if int(tomorrow['tempMax']) - int(today['tempMax']) > 5:
