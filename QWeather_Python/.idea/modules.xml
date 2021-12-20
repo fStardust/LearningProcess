@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/QWeatherAPI-Python-main.iml" filepath="$PROJECT_DIR$/.idea/QWeatherAPI-Python-main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/QWeather_Python.iml" filepath="$PROJECT_DIR$/.idea/QWeather_Python.iml" />
     </modules>
   </component>
 </project>
