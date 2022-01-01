@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'qWeather.apps.QweatherConfig',
+    'qWeather.apps.QWeatherConfig',
+    'nWeather.apps.NWeatherConfig',
 ]
 
 MIDDLEWARE = [

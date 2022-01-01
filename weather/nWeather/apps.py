@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class QWeatherConfig(AppConfig):
+class NWeatherConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'qWeather'
+    name = 'nWeather'

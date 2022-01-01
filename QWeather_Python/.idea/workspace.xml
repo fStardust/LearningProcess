@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="272f28eb-b4e8-4dba-b27b-04b6795180e6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/TWeather.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../weather/qWeather/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/../weather/qWeather/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,7 +110,8 @@
       <option name="presentableId" value="Default" />
       <updated>1639993145668</updated>
       <workItem from="1639993146799" duration="2701000" />
-      <workItem from="1640153951827" duration="4626000" />
+      <workItem from="1640153951827" duration="5008000" />
+      <workItem from="1641017652648" duration="418000" />
     </task>
     <servers />
   </component>
