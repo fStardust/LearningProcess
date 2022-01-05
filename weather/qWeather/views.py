@@ -20,6 +20,4 @@ def index(request):
         url = url_api_weather + api_type + '?location=' + city_id + middle + my_key
         # return requests.get(url).json()
 
-    get_now = get('now')
-
-    return HttpResponse(get_now)
+    return HttpResponse(get('now'))
