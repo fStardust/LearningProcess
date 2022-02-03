@@ -1,8 +1,9 @@
 # weather.py
-import requests
-from bs4 import BeautifulSoup
 import csv
 import json
+
+import requests
+from bs4 import BeautifulSoup
 
 
 def getHTMLtext(url):
@@ -151,4 +152,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
