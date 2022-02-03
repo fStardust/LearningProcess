@@ -1,8 +1,9 @@
 # data1_analysis.py
+import math
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import math
 
 
 def tem_curve(data):
