@@ -3,8 +3,6 @@ import re
 
 import requests
 
-print('____天气查询____')
-
 
 # 数据获取
 def get_weather_data():
@@ -25,7 +23,6 @@ def show_weather(res_dict):
         print('当前城市：', res_dict.get('data').get('city'))  # 默认从省-市-区- 尽可能详细 +
         print('实时温度：', res_dict.get('data').get('wendu') + '℃')
         print('感冒指数：', res_dict.get('data').get('ganmao'))
-        print('当前日期：', forecast[0].get('date'))
         print('天气概况：', forecast[0].get('type'))
         print('最高温度：', forecast[0].get('high'))
         print('最低温度：', forecast[0].get('low'))
@@ -35,7 +32,7 @@ def show_weather(res_dict):
             wind_power = re.split('[\[\]]', wind_power)[2]
         print('当前风级：', wind_power)
 
-        four_day_forecast = 'N'  # 是否要显示未来四天天气，是/否     web展示项！通知可选项-设置页可调整？    +
+        four_day_forecast = 'N'  # 未来四天天气     web展示项！通知可选项-设置页可调整？    +
         condition = ['是', 'Y', 'y']
         if four_day_forecast in condition:
             print('--------未来几天天气--------')
