@@ -14,16 +14,6 @@ def show_weather(weather_data):
         print('天气：',forecast[0].get('type'))
         print('日期：',forecast[0].get('date'))
         print('*******************************')
-        four_day_forecast =input('是否要显示未来四天天气，是/否：')
-        if four_day_forecast == '是' or 'Y' or 'y':
-            for i in range(1,5):
-                print('日期：',forecast[i].get('date'))
-                print('风向：',forecast[i].get('fengxiang'))
-                print('风级：',forecast[i].get('fengli'))
-                print('高温：',forecast[i].get('high'))
-                print('低温：',forecast[i].get('low'))
-                print('天气：',forecast[i].get('type'))
-                print('--------------------------')
-    print('***********************************')
+
 
 
