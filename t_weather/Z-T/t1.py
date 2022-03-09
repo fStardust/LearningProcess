@@ -4,6 +4,7 @@ import re
 import requests
 
 
+# mini 万年历天气API
 # 数据获取
 def get_weather_data():
     city_name = "昆明"  # 位置自动获取 或 主动输入--web页面输入框   +
