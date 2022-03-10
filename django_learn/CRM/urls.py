@@ -15,11 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, re_path, include
+
 from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('index/ZhangSan', views.index,name='index'),
+    path('index/ZhangSan', views.index, name='index'),
     re_path(r'detail/(?P<id>\d+)/(?P<year>\d{4})/(?P<month>[0-9]|1[0-2])/', views.detail),
     path("student/", views.student, kwargs={'name': '张三'}),
     path("test1/", views.test1),
@@ -28,5 +29,5 @@ urlpatterns = [
     path("teacher/", include('teacher.urls')),
     path("students/", include('students.urls')),
     path("news/", include("news.urls")),
-    path("",include("polls.urls"))
+    path("", include("polls.urls"))
 ]
