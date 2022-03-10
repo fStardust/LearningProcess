@@ -49,7 +49,7 @@ def show_weather(res_dict):
                 print('天气：', forecast[i].get('type'))
                 print('--------------------------')
 
-    return 'OK'
+    return 'ok'
 
 
 show_weather(get_weather_data())
