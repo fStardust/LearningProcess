@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+
+navigator.geolocation.getCurrentPosition(success=>{
+console.log(success.coords)
+{#//包含位置的经纬度、速度、海拔、经纬度精度、海拔精度信息#}
+},fail=>{
+console.log(fail)
+{#//获取失败的原因#}
+},{
+//可增加的4个配置参数
+enableHighAccuracy:true,//高精度
+timeout:5000,//超时时间,以ms为单位
+maximumAge:24*60*60*1000,//位置缓存时间,以ms为单位
+})
+
+</html>
