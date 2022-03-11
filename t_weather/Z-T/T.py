@@ -18,9 +18,13 @@ def get_weather_data():
     res_text = res.text
     print(type(res_text))
     print(res_text)
-    json_dict = xmltodict.parse(res_text)  # 将读取的xml字符串转换为字典
-    json_str = json.dumps(json_dict, ensure_ascii=False)  # 将字典转换为json格式的字符串
-    print(json_dict)
+    res_dict = xmltodict.parse(res_text)  # 将读取的xml字符串转换为字典
+    json_str = json.dumps(res_dict, ensure_ascii=False)  # 将字典转换为json格式的字符串
+    print(res_dict)
 
+    weather_dict = res_dict['resp']
+    item_dict1  = weather_dict['forecast']['weather']
+    c = item_dict1['day']['type']
+    print(c)
 
 get_weather_data()

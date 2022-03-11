@@ -15,7 +15,9 @@
     <div class="week">日期：{{ nowtq.date }}</div>
     <div class="weather">白天天气：{{ nowtq.text_day }}</div>
     <div class="temper">最高温度：{{ nowtq.high }}</div>
+    <div class="temper">最低温度：{{ nowtq.low }}</div>
     <div class="wind">白天风向：{{ nowtq.wd_day }}</div>
+    <div class="weather">晚间天气：{{ nowtq.text_night }}</div>
     <div class="T">--------------------</div>
 </main>
 <footer>
@@ -24,29 +26,33 @@
         <div class="week">日期：{{ onetq.date }}</div>
         <div class="weather">白天天气：{{ onetq.text_day }}</div>
         <div class="temper">最高温度：{{ onetq.high }}</div>
+        <div class="temper">最低温度：{{ onetq.low }}</div>
         <div class="wind">白天风向：{{ onetq.wd_day }}</div>
-        <div class="T">--------------------</div>
-    </section>
-    <section>
-        <div class="week">日期：{{ onetq.date }}</div>
-        <div class="weather">白天天气：{{ onetq.text_day }}</div>
-        <div class="temper">最高温度：{{ onetq.high }}</div>
-        <div class="wind">白天风向：{{ onetq.wd_day }}</div>
+        <div class="weather">晚间天气：{{ onetq.text_night }}</div>
         <div class="T">--------------------</div>
     </section>
     <section>
         <div class="week">日期：{{ twotq.date }}</div>
         <div class="weather">白天天气：{{ twotq.text_day }}</div>
         <div class="temper">最高温度：{{ twotq.high }}</div>
+        <div class="temper">最低温度：{{ twotq.low }}</div>
         <div class="wind">白天风向：{{ twotq.wd_day }}</div>
+        <div class="weather">晚间天气：{{ twotq.text_night }}</div>
+        <div class="T">--------------------</div>
+    </section>
+    <section>
+        <div class="week">日期：{{ threetq.date }}</div>
+        <div class="weather">白天天气：{{ threetq.text_day }}</div>
+        <div class="temper">最高温度：{{ threetq.high }}</div>
+        <div class="temper">最低温度：{{ threetq.low }}</div>
+        <div class="wind">白天风向：{{ threetq.wd_day }}</div>
+        <div class="weather">晚间天气：{{ threetq.text_night }}</div>
         <div class="T">--------------------</div>
     </section>
     {#        {% endfor %}#}
     <section>
         <div class="week">现在所在位置：{{ nowcity }}</div>
-        <div class="weather">白天天气：{{ twotq.text_day }}</div>
-        <div class="temper">最高温度：{{ twotq.high }}</div>
-        <div class="wind">白天风向：{{ twotq.wd_day }}</div>
+
         <div class="T">--------------------</div>
     </section>
     <div style="clear:left;"></div>

@@ -41,9 +41,15 @@ def weather_data(request):
     for item_dict1 in w_date:
         date = item_dict1['date']
         high = item_dict1['high']
+        low = item_dict1['low']
         text_day = item_dict1['text_day']
         wd_day = item_dict1['wd_day']
-        print('时间：{}; 最高温度：{}; 白天天气：{}; 白天风向：{}'.format(date, high, text_day, wd_day))
+        text_night = item_dict1['text_night']
+        print(
+            '时间：{}; 最高温度：{};最低温度：{}; 白天天气：{}; 白天风向：{}; 晚间天气：{}'.format(
+                date, high, low, text_day, wd_day, text_night
+            )
+        )
     context = {
         'city': city,
         'weather_list': w_date,
