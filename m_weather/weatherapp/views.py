@@ -1,34 +1,38 @@
-from django.shortcuts import render
-
-import requests
-
 import json
 
-def tq(request):
-    ip_api = 'https://api.map.baidu.com/location/ip?ak=KHkVjtmfrM6NuzqxEALj0p8i1cUQot6Z'
+import pandas as pd
+import requests
+from django.shortcuts import render
+
+city_file = "./static/weather_district_id.csv"
+city_csv = pd.read_csv(city_file)
+
+
+def weather_data(request):
+    ip_api = 'https://api.map.baidu.com/location/ip?ak=b78I1MmxAMts1dkuBrwhyahPE6V6y5I7'
     response = requests.get(ip_api)
     city_dict = json.loads(response.text)
     nowcity = city_dict['content']['address_detail']['city']
+    citycode = city_dict['content']['address_detail']['adcode']
     if request.method == 'POST':
         city = request.POST['city']
-        str = 'http://api.map.baidu.com/telematics/v3/weather?location=' + city + '&output=json&ak=TueGDhCvwI6fOrQnLM0qmXxY9N0OkOiQ&callback=?'
+        for i in range(len(city_csv)):
+            if city_csv['district'][i] == city:
+                print(city_csv['district_geocode'][i])
+                citycode = str(city_csv['district_geocode'][i])
+        utl_str = 'https://api.map.baidu.com/weather/v1/?district_id=' + citycode + '&data_type=all&ak=b78I1MmxAMts1dkuBrwhyahPE6V6y5I7'
     else:
-        str = 'http://api.map.baidu.com/telematics/v3/weather?location=' + nowcity + '&output=json&ak=TueGDhCvwI6fOrQnLM0qmXxY9N0OkOiQ&callback=?'
+        utl_str = 'https://api.map.baidu.com/weather/v1/?district_id=' + citycode + '&data_type=all&ak=b78I1MmxAMts1dkuBrwhyahPE6V6y5I7'
 
-    # city = input("请输入要查询的城市信息（例如：郑州，北京，上海）：")
-    response = requests.get(str)
+    response = requests.get(utl_str)
 
     json_str = response.text
     json_dict = json.loads(json_str)
+    data_dict = json_dict['result']
+    w_date = data_dict['forecasts']
 
-    data_dict = json_dict['results']
-    lin = data_dict[0]
-    index = lin['index']
-    w_date = lin['weather_data']
-
-    city = data_dict[0]['currentCity']
-    pm = data_dict[0]['pm25']
-    print('城市：{}; pm25：{};'.format(city, pm))
+    city = data_dict['location']['city']
+    print('城市：{}; pm25：{};'.format(city, "56"))
 
     nowtq = w_date[0]
     onetq = w_date[1]
@@ -36,10 +40,10 @@ def tq(request):
     threetq = w_date[3]
     for item_dict1 in w_date:
         date = item_dict1['date']
-        temperature = item_dict1['temperature']
-        weather = item_dict1['weather']
-        wind = item_dict1['wind']
-        print('时间：{}; 温度：{}; 天气：{}; 风向：{}'.format(date, temperature, weather, wind))
+        high = item_dict1['high']
+        text_day = item_dict1['text_day']
+        wd_day = item_dict1['wd_day']
+        print('时间：{}; 最高温度：{}; 白天天气：{}; 白天风向：{}'.format(date, high, text_day, wd_day))
     context = {
         'city': city,
         'weather_list': w_date,
