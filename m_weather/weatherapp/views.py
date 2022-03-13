@@ -13,7 +13,7 @@ def weather_data(request):
     response = requests.get(ip_api)
     city_dict = json.loads(response.text)
     print(city_dict)
-    nowcity = city_dict['content']['address_detail']['city']
+    current_location = city_dict['content']['address_detail']['city']
     citycode = city_dict['content']['address_detail']['adcode']
     print(citycode)
     if request.method == 'POST':
@@ -24,22 +24,28 @@ def weather_data(request):
                 citycode = str(city_csv['district_geocode'][i])
         utl_str = 'https://api.map.baidu.com/weather/v1/?district_id=' + citycode + '&data_type=all&ak=b78I1MmxAMts1dkuBrwhyahPE6V6y5I7'
     else:
+        for i in range(len(city_csv)):
+            if current_location == str(city_csv['city'][i]):
+                citycode = str(city_csv['district_geocode'][i])
+                break
         utl_str = 'https://api.map.baidu.com/weather/v1/?district_id=' + citycode + '&data_type=all&ak=b78I1MmxAMts1dkuBrwhyahPE6V6y5I7'
 
     response = requests.get(utl_str)
 
-    json_str = response.text
-    json_dict = json.loads(json_str)
-    data_dict = json_dict['result']
+    weather_dict = json.loads(response.text)
+    print(weather_dict)
+    res_json = json.dumps(weather_dict, ensure_ascii=False)
+    data_dict = weather_dict['result']
     w_date = data_dict['forecasts']
 
     city = data_dict['location']['city']
-    print('城市：{}; pm25：{};'.format(city, "56"))
+    print('城市：{}'.format(city))
 
-    nowtq = w_date[0]
+    nowtq = w_date[0]   # 改为 ***_weather
     onetq = w_date[1]
     twotq = w_date[2]
     threetq = w_date[3]
+    fourtq = w_date[4]
     for item_dict1 in w_date:
         date = item_dict1['date']
         high = item_dict1['high']
@@ -59,7 +65,8 @@ def weather_data(request):
         'onetq': onetq,
         'twotq': twotq,
         'threetq': threetq,
-        'nowcity': nowcity,
+        'fourtq': fourtq,
+        'current_location': current_location,
     }
 
     return render(request, template_name='weather.html', context=context)

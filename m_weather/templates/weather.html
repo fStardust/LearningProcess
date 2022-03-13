@@ -9,8 +9,16 @@
     <input name="city" type="text" placeholder="请输入要查询的城市名称">
     <button type="submit">查询</button>
 </form>
+<header>--------个性化天气预报系统------------</header>
+    <section>
+
+        <div class="week">您现在所在位置：{{ current_location }}</div>
+
+        <div class="T">--------------------</div>
+    </section>
 <header>{{ city }}</header>
 <div class="T">--------------------</div>
+
 <main>
     <div class="week">日期：{{ nowtq.date }}</div>
     <div class="weather">白天天气：{{ nowtq.text_day }}</div>
@@ -49,12 +57,18 @@
         <div class="weather">晚间天气：{{ threetq.text_night }}</div>
         <div class="T">--------------------</div>
     </section>
-    {#        {% endfor %}#}
     <section>
-        <div class="week">现在所在位置：{{ nowcity }}</div>
-
+        <div class="week">日期：{{ fourtq.date }}</div>
+        <div class="weather">白天天气：{{ fourtq.text_day }}</div>
+        <div class="temper">最高温度：{{ fourtq.high }}</div>
+        <div class="temper">最低温度：{{ fourtq.low }}</div>
+        <div class="wind">白天风向：{{ fourtq.wd_day }}</div>
+        <div class="weather">晚间天气：{{ fourtq.text_night }}</div>
         <div class="T">--------------------</div>
     </section>
+
+    {#        {% endfor %}#}
+
     <div style="clear:left;"></div>
 </footer>
 </body>

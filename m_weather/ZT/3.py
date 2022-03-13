@@ -1,34 +1,40 @@
 import json
-import socket
 
 import pandas as pd
 import requests
 
-city_file = "../static/weather_district_id.csv"
+city_file = ".././static/weather_district_id.csv"
 city_csv = pd.read_csv(city_file)
 
-def get_host_ip():
-    """
-    查询本机ip地址
-    :return: ip
-    """
+ip_api = 'https://api.map.baidu.com/location/ip?ak=b78I1MmxAMts1dkuBrwhyahPE6V6y5I7'
+response = requests.get(ip_api)
+city_dict = json.loads(response.text)
+print(city_dict)
+print(city_dict["status"])
+# res_json = json.dumps(city_dict, indent=4, ensure_ascii=False)
+# current_location = city_dict['content']['address_detail']['city']
+citycode = city_dict['content']['address_detail']['adcode']
+print(citycode)
+
+
+# def location_judge():
+c = city_dict["status"]
+if c == 0:
+    for i in range(len(city_csv)):
+        # print(citycode)
+        if citycode == city_csv['districtcode'][i]:
+            print("y")
+            province_name = city_csv['province'][i]
+            # print(city_csv['province'][i])
+            print(province_name)
+            # city_name = str(city_csv['city'][i])
+            # print(city_name)
+            # district_name = str(city_csv['district'][i])
+            # location = province_name + city_name + district_name
+            # # print(location)
+            # return province_name
 
 
 
 
-def weather_data():
-    try:
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        s.connect(('8.8.8.8', 80))
-        ip = s.getsockname()[0]
-    finally:
-        s.close()
-
-    user_ip = ip
-    ip_api = 'https://api.map.baidu.com/location/ip?ak=b78I1MmxAMts1dkuBrwhyahPE6V6y5I7&ip='+ user_ip + '&coor=bd09ll'
-    response = requests.get(ip_api)
-    city_dict = json.loads(response.text)
-    print(city_dict)
-
-
-weather_data()
+# location_judge()
