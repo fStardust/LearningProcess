@@ -12,8 +12,10 @@ def weather_data(request):
     ip_api = 'https://api.map.baidu.com/location/ip?ak=b78I1MmxAMts1dkuBrwhyahPE6V6y5I7'
     response = requests.get(ip_api)
     city_dict = json.loads(response.text)
+    print(city_dict)
     nowcity = city_dict['content']['address_detail']['city']
     citycode = city_dict['content']['address_detail']['adcode']
+    print(citycode)
     if request.method == 'POST':
         city = request.POST['city']
         for i in range(len(city_csv)):
