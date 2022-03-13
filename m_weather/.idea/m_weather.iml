@@ -20,7 +20,7 @@
   <component name="PyNamespacePackagesService">
     <option name="namespacePackageFolders">
       <list>
-        <option value="$MODULE_DIR$/ZT" />
+        <option value="$MODULE_DIR$/ZTest" />
       </list>
     </option>
   </component>
