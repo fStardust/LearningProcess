@@ -1,24 +1,27 @@
 import json
-import re
 
 import requests
 import xmltodict
 
+nowcity = "昆明"
+utl_str = 'http://wthrcdn.etouch.cn/WeatherApi?city=' + nowcity  # 简单信息使用城市代码 --T.xml +
+res_text = requests.get(utl_str, verify=False).text  # 获取数据mxl text 格式
+print(res_text)
+# res_dict = xmltodict.parse(res_text)
+res_dict = json.loads(json.dumps(xmltodict.parse(res_text)))  # 数据mxl Dict 格式 -- 以便分析 +
+# res_json = json.dumps(res_dict, ensure_ascii=False)  # 数据  json 标准化 -- 以便存储
+print(type(res_dict))
 
-# 完整 万年历天气API -- T.xml
-# 数据获取
-def get_weather_data():
-    city_name = "昆明"  # 位置自动获取 或 主动输入--web页面输入框   +
-    url_w = 'http://wthrcdn.etouch.cn/WeatherApi?city=' + city_name  # 简单信息 -- 调整为城市代码 --T.xml +
-    res = requests.get(url_w, verify=False)
-    res_dict = json.loads(json.dumps(xmltodict.parse(res.text)))    # 将 xml字符串转换为 dict 格式 -- 以便分析 +
-    res_json = json.dumps(res_dict, ensure_ascii=False)  # 获取数据 进行 json 标准化 -- 以便存储 +
-    print(res_dict)
-    return res_dict
+clo = res_dict["resp"]["zhishus"]["zhishu"][0]["detail"] + "\n"   # 万年历 服装推荐
+uv = res_dict["resp"]["zhishus"]["zhishu"][1]["detail"] + "\n"   # 万年历 紫外线
+skin = res_dict["resp"]["zhishus"]["zhishu"][2]["detail"] + "\n"
+
+recommend = clo + uv + skin
+
+print(type(recommend))
+
+print(recommend)
 
 
-
-
-
-get_weather_data()
-show_weather(get_weather_data())
+for key in res_dict.resp.zhishus.zhishu:
+    print(res_dict["resp"]["zhishus"]["zhishu"][key]["detail"])

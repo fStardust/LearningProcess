@@ -2,26 +2,28 @@ import json
 
 import pandas as pd
 import requests
+import xmltodict
 from django.shortcuts import render
 
 city_file = "./static/weather_district_id.csv"
 city_csv = pd.read_csv(city_file)
+
 
 # bai_utl_str:百度地图天气API;per_utl_str:万年历天气API
 def weather_data(request):
     ip_api = 'https://api.map.baidu.com/location/ip?ak=b78I1MmxAMts1dkuBrwhyahPE6V6y5I7'
     bai_response = requests.get(ip_api)
     city_dict = json.loads(bai_response.text)
-    print(city_dict)
     current_location = city_dict['content']['address_detail']['city']
     if request.method == 'POST':
         city = request.POST['city']
         for i in range(len(city_csv)):
-            if city_csv['district'][i] == city:
-                print(city_csv['district_geocode'][i])
+            if city == city_csv['district'][i]:
                 districtcode = str(city_csv['districtcode'][i])
                 citycode = str(city_csv['areacode'][i])
+                break
         bai_utl_str = 'https://api.map.baidu.com/weather/v1/?district_id=' + districtcode + '&data_type=all&ak=b78I1MmxAMts1dkuBrwhyahPE6V6y5I7'
+        per_utl_str = 'http://wthrcdn.etouch.cn/WeatherApi?citykey=' + citycode
     else:
         for i in range(len(city_csv)):
             if current_location == str(city_csv['city'][i]):
@@ -29,19 +31,25 @@ def weather_data(request):
                 citycode = str(city_csv['areacode'][i])
                 break
         bai_utl_str = 'https://api.map.baidu.com/weather/v1/?district_id=' + districtcode + '&data_type=all&ak=b78I1MmxAMts1dkuBrwhyahPE6V6y5I7'
-        per_utl_str = 'http://wthrcdn.etouch.cn/WeatherApi?city=' + citycode
+        per_utl_str = 'http://wthrcdn.etouch.cn/WeatherApi?citykey=' + citycode
 
-    bai_response = requests.get(bai_utl_str)
-    per_response = request.get(per_utl_str)
+    bai_response = requests.get(bai_utl_str).text
+    per_response = requests.get(per_utl_str, verify=False).text
 
-    weather_dict = json.loads(bai_response.text)
-    print(weather_dict)
-    res_json = json.dumps(weather_dict, ensure_ascii=False)
-    data_dict = weather_dict['result']
+    print(bai_response)
+    print(per_response)
+
+    bai_weather_dict = json.loads(bai_response)
+    per_weather_dict = json.loads(json.dumps(xmltodict.parse(per_response)))
+
+    res_json = json.dumps(bai_weather_dict, ensure_ascii=False)
+    data_dict = bai_weather_dict['result']
     w_date = data_dict['forecasts']
 
     city = data_dict['location']['city']
     print('城市：{}'.format(city))
+
+
 
     recommend = "推荐单衣"
     travel_recommend = "推荐棉袄"
