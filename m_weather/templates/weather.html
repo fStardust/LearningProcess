@@ -4,18 +4,38 @@
     <meta charset="utf-8">
 </head>
 <body>
+<header>--------个性化天气预报系统------------</header>
+
+
 <form action="/weather/" method="POST">
     {% csrf_token %}
     <input name="city" type="text" placeholder="请输入要查询的城市名称">
     <button type="submit">查询</button>
 </form>
-<header>--------个性化天气预报系统------------</header>
-    <section>
 
-        <div class="week">您现在所在位置：{{ current_location }}</div>
+<section>
+    <div class="week">您现在所在位置：{{ current_location }}</div>
+    <div id="he-plugin-standard"></div>
+    <script>
+        WIDGET = {
+            "CONFIG": {
+                "layout": "1",
+                "width": "450",
+                "height": "150",
+                "background": "1",
+                "dataColor": "FFFFFF",
+                "borderRadius": "5",
+                "key": "230c13876df34ee48d04dc14863613ad"
+            }
+        }
+    </script>
+    <script src="https://widget.qweather.net/standard/static/js/he-standard-common.js?v=2.0"></script>
 
-        <div class="T">--------------------</div>
-    </section>
+    <div class="text">外出推荐：{{ recommend  }}</div>
+
+    <div class="T">--------------------</div>
+</section>
+
 <header>{{ city }}</header>
 <div class="T">--------------------</div>
 
@@ -26,6 +46,8 @@
     <div class="temper">最低温度：{{ nowtq.low }}</div>
     <div class="wind">白天风向：{{ nowtq.wd_day }}</div>
     <div class="weather">晚间天气：{{ nowtq.text_night }}</div>
+
+    <div class="text">旅行推荐：{{ travel_recommend  }}</div>
     <div class="T">--------------------</div>
 </main>
 <footer>

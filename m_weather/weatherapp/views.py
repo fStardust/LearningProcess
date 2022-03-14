@@ -7,32 +7,34 @@ from django.shortcuts import render
 city_file = "./static/weather_district_id.csv"
 city_csv = pd.read_csv(city_file)
 
-
+# bai_utl_str:百度地图天气API;per_utl_str:万年历天气API
 def weather_data(request):
     ip_api = 'https://api.map.baidu.com/location/ip?ak=b78I1MmxAMts1dkuBrwhyahPE6V6y5I7'
-    response = requests.get(ip_api)
-    city_dict = json.loads(response.text)
+    bai_response = requests.get(ip_api)
+    city_dict = json.loads(bai_response.text)
     print(city_dict)
     current_location = city_dict['content']['address_detail']['city']
-    citycode = city_dict['content']['address_detail']['adcode']
-    print(citycode)
     if request.method == 'POST':
         city = request.POST['city']
         for i in range(len(city_csv)):
             if city_csv['district'][i] == city:
                 print(city_csv['district_geocode'][i])
-                citycode = str(city_csv['district_geocode'][i])
-        utl_str = 'https://api.map.baidu.com/weather/v1/?district_id=' + citycode + '&data_type=all&ak=b78I1MmxAMts1dkuBrwhyahPE6V6y5I7'
+                districtcode = str(city_csv['districtcode'][i])
+                citycode = str(city_csv['areacode'][i])
+        bai_utl_str = 'https://api.map.baidu.com/weather/v1/?district_id=' + districtcode + '&data_type=all&ak=b78I1MmxAMts1dkuBrwhyahPE6V6y5I7'
     else:
         for i in range(len(city_csv)):
             if current_location == str(city_csv['city'][i]):
-                citycode = str(city_csv['district_geocode'][i])
+                districtcode = str(city_csv['districtcode'][i])
+                citycode = str(city_csv['areacode'][i])
                 break
-        utl_str = 'https://api.map.baidu.com/weather/v1/?district_id=' + citycode + '&data_type=all&ak=b78I1MmxAMts1dkuBrwhyahPE6V6y5I7'
+        bai_utl_str = 'https://api.map.baidu.com/weather/v1/?district_id=' + districtcode + '&data_type=all&ak=b78I1MmxAMts1dkuBrwhyahPE6V6y5I7'
+        per_utl_str = 'http://wthrcdn.etouch.cn/WeatherApi?city=' + citycode
 
-    response = requests.get(utl_str)
+    bai_response = requests.get(bai_utl_str)
+    per_response = request.get(per_utl_str)
 
-    weather_dict = json.loads(response.text)
+    weather_dict = json.loads(bai_response.text)
     print(weather_dict)
     res_json = json.dumps(weather_dict, ensure_ascii=False)
     data_dict = weather_dict['result']
@@ -41,7 +43,10 @@ def weather_data(request):
     city = data_dict['location']['city']
     print('城市：{}'.format(city))
 
-    nowtq = w_date[0]   # 改为 ***_weather
+    recommend = "推荐单衣"
+    travel_recommend = "推荐棉袄"
+
+    nowtq = w_date[0]  # 改为 ***_weather
     onetq = w_date[1]
     twotq = w_date[2]
     threetq = w_date[3]
@@ -67,6 +72,8 @@ def weather_data(request):
         'threetq': threetq,
         'fourtq': fourtq,
         'current_location': current_location,
+        'recommend': recommend,
+        'travel_recommend': travel_recommend,
     }
 
     return render(request, template_name='weather.html', context=context)

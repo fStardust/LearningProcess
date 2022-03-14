@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+# createsuperuser_name:admin _power:123 _mail:admin_weather@163.com
 # Application definition
 
 INSTALLED_APPS = [
