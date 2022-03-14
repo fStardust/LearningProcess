@@ -7,15 +7,6 @@ with open('C:\\Users\\21117\\Desktop\\API.json', 'r', encoding='utf8') as fcc_fi
 
 print(type(res_dict))
 
-clo = res_dict["resp"]["zhishus"]["zhishu"][0]["detail"] + "\n"  # 万年历 服装推荐
-uv = res_dict["resp"]["zhishus"]["zhishu"][1]["detail"] + "\n"  # 万年历 紫外线
-# skin = res_dict["resp"]["zhishus"]["zhishu"][2]["detail"] + "\n"
-
-recommend = clo + uv
-
-print(type(recommend))
-print(recommend)
-
 zhishus = res_dict["resp"]["zhishus"]["zhishu"]
 print(type(zhishus))
 print(zhishus)

@@ -49,10 +49,10 @@ def weather_data(request):
     city = data_dict['location']['city']
     print('城市：{}'.format(city))
 
+    per_recommend = per_weather_dict["resp"]["zhishus"]["zhishu"][0]["detail"]
 
-
-    recommend = "推荐单衣"
-    travel_recommend = "推荐棉袄"
+    recommend = "天气舒适，建议穿着薄款，透气的衣物。推荐：长T、长裙、长裤等。"
+    travel_recommend = per_recommend
 
     nowtq = w_date[0]  # 改为 ***_weather
     onetq = w_date[1]
