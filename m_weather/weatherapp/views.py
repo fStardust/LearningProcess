@@ -41,10 +41,11 @@ def weather_data(request):
 
     bai_weather_dict = json.loads(bai_response)
     per_weather_dict = json.loads(json.dumps(xmltodict.parse(per_response)))
-
-    res_json = json.dumps(bai_weather_dict, ensure_ascii=False)
     data_dict = bai_weather_dict['result']
     w_date = data_dict['forecasts']
+
+    bai_weather_json = json.dumps(bai_weather_dict, ensure_ascii=False)
+    per_weather_json = json.dumps(per_weather_dict, ensure_ascii=False)
 
     city = data_dict['location']['city']
     print('城市：{}'.format(city))
