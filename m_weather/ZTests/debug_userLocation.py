@@ -3,7 +3,7 @@ import json
 import pandas as pd
 import requests
 
-city_file = "../static/weather_district_id.csv"
+city_file = "../information/weather_district_id.csv"
 city_csv = pd.read_csv(city_file)
 ip_api = 'https://api.map.baidu.com/location/ip?ak=b78I1MmxAMts1dkuBrwhyahPE6V6y5I7'
 response = requests.get(ip_api)

@@ -6,7 +6,7 @@ import requests
 import xmltodict
 from django.shortcuts import render
 
-city_file = os.path.abspath('...//static/weather_district_id.csv')
+city_file = os.path.abspath('.\information\weather_district_id.csv')
 city_csv = pd.read_csv(city_file)
 
 

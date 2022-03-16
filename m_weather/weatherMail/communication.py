@@ -13,7 +13,7 @@ def com_weather():
 
     def the_mail_data():
         global per_detail
-        city_file = "../static/weather_district_id.csv"
+        city_file = "../information/weather_district_id.csv"
         city_csv = pd.read_csv(city_file)
         ip_api = 'https://api.map.baidu.com/location/ip?ak=b78I1MmxAMts1dkuBrwhyahPE6V6y5I7'
         bai_response = requests.get(ip_api)
