@@ -17,12 +17,11 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path
 
-from weatherapp.views import weather_data, com_timer
+from weatherapp.views import weather_data
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^$', weather_data),
-    path('timer/', com_timer),
     path('weather/', weather_data),
 
 ]

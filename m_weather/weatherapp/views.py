@@ -1,13 +1,37 @@
 import json
 import os
+from datetime import datetime
 
 import pandas as pd
 import requests
 import xmltodict
+from apscheduler.schedulers.background import BackgroundScheduler
 from django.shortcuts import render
+from django_apscheduler.jobstores import DjangoJobStore, register_job
+
+from weatherMail.communication import com_weather
 
 city_file = os.path.abspath('.\information\weather_district_id.csv')
 city_csv = pd.read_csv(city_file)
+
+daily_timer = "9:30"
+
+
+
+
+scheduler = BackgroundScheduler()
+scheduler.add_jobstore(DjangoJobStore(), "default")
+
+
+@register_job(scheduler, 'cron', day_of_week='*', hour='20', minute='14')
+def com_timer():
+    localtime = datetime.now()
+    print(localtime.strftime("%Y-%m-%d %H:%M:%S"))
+    com_weather()
+
+scheduler.start()  # 开始执行调度器
+# except Exception as e:
+#     print(e)
 
 
 # bai_utl_str:百度地图天气API;per_utl_str:万年历天气API
@@ -73,6 +97,7 @@ def weather_data(request):
                 date, high, low, text_day, wd_day, text_night
             )
         )
+
     context = {
         'city': city,
         'weather_list': w_date,
@@ -88,22 +113,3 @@ def weather_data(request):
     }
 
     return render(request, template_name='weather.html', context=context)
-
-
-def com_timer(request):
-    daily_time = "9:30"
-    daily_time_hour = "9"
-    daily_time_min = "30"
-    if request.method == 'POST':
-        daily_time_hour = request.POST['daily_time_hour']
-        daily_time_min = request.POST['daily_time_min']
-
-        daily_time = daily_time_hour + ":" + daily_time_min
-        print(daily_time)
-
-    context = {
-        'daily_time': daily_time,
-    }
-
-    return render(request, template_name='timer.html', context=context)
-

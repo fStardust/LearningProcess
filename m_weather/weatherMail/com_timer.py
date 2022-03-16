@@ -2,21 +2,20 @@
 # -*- coding: UTF-8 -*-
 import threading
 import time
+from datetime import datetime
 
 from communication import com_weather
-
-localtime = time.localtime(time.time())  # 创建时间对象
-
-daily_time = "20"
+from weatherapp.views import daily_timer
 
 
 # 定义线程调用函数
 class ThreadingTimer(threading.Thread):
     def run(self):
         while True:
-            time_now = time.strftime("%S", time.localtime())  # 刷新
-            if time_now == daily_time:
-                print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
+            localtime = datetime.now()
+            time_now = localtime.strftime("%S")  # 刷新
+            if time_now == daily_timer:
+                print(localtime.strftime("%Y-%m-%d %H:%M:%S"))
                 com_weather()
                 time.sleep(2)
 
@@ -34,7 +33,6 @@ class ThreadingTimer(threading.Thread):
 
 
 # 创建新线程
-day_timer = ThreadingTimer()
+ThreadingTimer().start()
 
-day_timer.start()
 print("day_timer :线程打开")  # --

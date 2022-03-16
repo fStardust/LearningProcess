@@ -1,27 +1,26 @@
-import json
+import time
+from apscheduler.schedulers.background import BackgroundScheduler
+from django_apscheduler.jobstores import DjangoJobStore, register_job, register_events
 
-import requests
-import xmltodict
+print('django-apscheduler')
 
-nowcity = "昆明"
-utl_str = 'http://wthrcdn.etouch.cn/WeatherApi?city=' + nowcity  # 简单信息使用城市代码 --T.xml +
-res_text = requests.get(utl_str, verify=False).text  # 获取数据mxl text 格式
-print(res_text)
-# res_dict = xmltodict.parse(res_text)
-res_dict = json.loads(json.dumps(xmltodict.parse(res_text)))  # 数据mxl Dict 格式 -- 以便分析 +
-# res_json = json.dumps(res_dict, ensure_ascii=False)  # 数据  json 标准化 -- 以便存储
-print(type(res_dict))
+def job2(name):
+    # 具体要执行的代码
+    print('{} 任务运行成功！{}'.format(name,time.strftime("%Y-%m-%d %H:%M:%S")))
 
-clo = res_dict["resp"]["zhishus"]["zhishu"][0]["detail"] + "\n"   # 万年历 服装推荐
-uv = res_dict["resp"]["zhishus"]["zhishu"][1]["detail"] + "\n"   # 万年历 紫外线
-skin = res_dict["resp"]["zhishus"]["zhishu"][2]["detail"] + "\n"
+# 实例化调度器
+scheduler = BackgroundScheduler()
+# 调度器使用DjangoJobStore()
+scheduler.add_jobstore(DjangoJobStore(), "default")
+# # 添加任务1
+# # 每隔5s执行这个任务
+# @register_job(scheduler,"interval", seconds=5,args=['王路'],id='job1')
+# def job1(name):
+#     # 具体要执行的代码
+#     print('{} 任务运行成功！{}'.format(name,time.strftime("%Y-%m-%d %H:%M:%S")))
 
-recommend = clo + uv + skin
-
-print(type(recommend))
-
-print(recommend)
+scheduler.add_job(job2,"interval",seconds=10,args=['王飞'],id="job2")
 
 
-for key in res_dict.resp.zhishus.zhishu:
-    print(res_dict["resp"]["zhishus"]["zhishu"][key]["detail"])
+# 调度器开始运行
+scheduler.start()
