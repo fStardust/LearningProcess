@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>每日提醒时间设置</title>
+</head>
+<body>
+    <header>--------个性化天气预报系统------------</header>
+
+    <form action="/timer/" method="POST">
+            {% csrf_token %}
+        <div class="test">当前每日提醒时间为:</div>
+            <br>
+        <div style="color: crimson">{{  daily_time }}</div>
+            <br>
+        <div class="test">请输入想要提醒的时间</div>
+            <br>
+        <input style = "width:60px;display:inline" name="daily_time_hour" type="text" placeholder="示例：08"   >
+            <span class="test">:</span>
+            <input style = "width:60px;display:inline" name="daily_time_min" type="text" placeholder="示例：30" >
+        <button type="submit">确认修改</button>
+        <button type="submit">返回</button>
+    </form>
+
+</body>
+</html>

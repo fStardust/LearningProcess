@@ -84,7 +84,26 @@ def weather_data(request):
         'current_location': current_location,
         'recommend': recommend,
         'travel_recommend': travel_recommend,
+
     }
 
     return render(request, template_name='weather.html', context=context)
+
+
+def com_timer(request):
+    daily_time = "9:30"
+    daily_time_hour = "9"
+    daily_time_min = "30"
+    if request.method == 'POST':
+        daily_time_hour = request.POST['daily_time_hour']
+        daily_time_min = request.POST['daily_time_min']
+
+        daily_time = daily_time_hour + ":" + daily_time_min
+        print(daily_time)
+
+    context = {
+        'daily_time': daily_time,
+    }
+
+    return render(request, template_name='timer.html', context=context)
 
