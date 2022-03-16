@@ -1,11 +1,12 @@
 import json
+import os
 
 import pandas as pd
 import requests
 import xmltodict
 from django.shortcuts import render
 
-city_file = "./static/weather_district_id.csv"
+city_file = os.path.abspath('...//static/weather_district_id.csv')
 city_csv = pd.read_csv(city_file)
 
 
