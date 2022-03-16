@@ -86,3 +86,4 @@ def weather_data(request):
     }
 
     return render(request, template_name='weather.html', context=context)
+
