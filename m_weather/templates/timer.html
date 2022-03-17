@@ -11,7 +11,7 @@
             {% csrf_token %}
         <div class="test">当前每日提醒时间为:</div>
             <br>
-        <div style="color: crimson">{{  daily_time }}</div>
+        <div style="color: crimson">{{ daily_time }}</div>
             <br>
         <div class="test">请输入想要提醒的时间</div>
             <br>
@@ -19,7 +19,8 @@
             <span class="test">:</span>
             <input style = "width:60px;display:inline" name="daily_time_min" type="text" placeholder="示例：30" >
         <button type="submit">确认修改</button>
-        <button type="submit">返回</button>
+        <button onclick="window.location.href='../weather/'" type="button" id="add">返回</button>
+
     </form>
 
 </body>

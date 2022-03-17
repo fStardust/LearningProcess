@@ -10,36 +10,75 @@ from django.shortcuts import render
 from django_apscheduler.jobstores import DjangoJobStore, register_job
 
 from weatherMail.communication import com_weather
+from weatherapp.models import TrigTime, LogSheet
 
 city_file = os.path.abspath('.\information\weather_district_id.csv')
 city_csv = pd.read_csv(city_file)
 
-daily_timer = "9:30"
+# log_sheet = LogSheet.objects.all()
 
+trig_time = TrigTime.objects.last()
+test_id = "timer" + str(trig_time.id)
+timer_hour = trig_time.trig_time_hour
+timer_min = trig_time.trig_time_min
+the_daily_time = timer_hour + ":" + timer_min
 
-
-
+# 定时触发
 scheduler = BackgroundScheduler()
 scheduler.add_jobstore(DjangoJobStore(), "default")
 
 
-@register_job(scheduler, 'cron', day_of_week='*', hour='20', minute='14')
+@register_job(scheduler, 'cron', day_of_week='*', hour=timer_hour, minute=timer_min, id=test_id)
 def com_timer():
     localtime = datetime.now()
     print(localtime.strftime("%Y-%m-%d %H:%M:%S"))
+    log_sheet = LogSheet(run_time=localtime, choice_text="text")
+    log_sheet.save()
     com_weather()
 
+
 scheduler.start()  # 开始执行调度器
-# except Exception as e:
-#     print(e)
+# if request.method == 'POST':
+#     scheduler.modify_job(scheduler, hour=timer_hour, minute=timer_min)
+
+
+# 修改定时提醒时间
+def change_time(request):
+    daily_time_bef = the_daily_time
+    if request.method == 'POST':
+        timer_hour_aft = request.POST['daily_time_hour']
+        timer_min_aft = request.POST['daily_time_min']
+        daily_time_aft = timer_hour_aft + ":" + timer_min_aft
+        daily_time_aft = pd.to_datetime(daily_time_aft, format="%H:%M", errors="coerce")
+        if str(daily_time_aft) == "NaT":
+            print(12)
+            timer_hour_aft = "NaT"
+            timer_min_aft = "输入错误"
+            daily_time_aft = timer_hour_aft + ":" + timer_min_aft
+            daily_time = daily_time_aft
+        else:
+            trig_time_aft = TrigTime(trig_time_hour=timer_hour_aft, trig_time_min=timer_min_aft)
+            trig_time_aft.save()
+            trig_time_aft = TrigTime.objects.last()
+            daily_time = trig_time_aft.trig_time_hour + ":" + trig_time_aft.trig_time_min
+    else:
+        daily_time = daily_time_bef
+
+    context = {
+        'daily_time': daily_time,
+    }
+    return render(request, template_name='timer.html', context=context)
 
 
 # bai_utl_str:百度地图天气API;per_utl_str:万年历天气API
 def weather_data(request):
+    # daily_time = "8:30"
+    daily_time = the_daily_time
     ip_api = 'https://api.map.baidu.com/location/ip?ak=b78I1MmxAMts1dkuBrwhyahPE6V6y5I7'
     bai_response = requests.get(ip_api)
     city_dict = json.loads(bai_response.text)
     current_location = city_dict['content']['address_detail']['city']
+
     if request.method == 'POST':
         city = request.POST['city']
         for i in range(len(city_csv)):
@@ -101,6 +140,7 @@ def weather_data(request):
     context = {
         'city': city,
         'weather_list': w_date,
+        'daily_time': daily_time,
         'nowtq': nowtq,
         'onetq': onetq,
         'twotq': twotq,

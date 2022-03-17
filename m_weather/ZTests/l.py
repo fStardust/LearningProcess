@@ -54,3 +54,29 @@ print("thread3 :线程打开")
 #
 # print(daily_time_hour)
 
+
+
+
+# def change_time(request, the_daily_time):
+#     daily_time_bef = the_daily_time
+#     if request.method == 'POST':
+#         timer_hour_aft = request.POST['daily_time_hour']
+#         timer_min_aft = request.POST['daily_time_min']
+#
+#         daily_time_aft = timer_hour_aft + timer_min_aft
+#
+#         daily_time_aft = pd.to_datetime(daily_time_aft, format="%H:%M", errors="coerce")
+#         if daily_time_aft == "NaT":
+#             daily_time = daily_time_aft + "*****输入错误，请重新输入*****"
+#         else:
+#             trig_time_aft = TrigTime(trig_time_hour=timer_hour_aft, trig_time_min=timer_min_aft)
+#             trig_time_aft.save()
+#             trig_time_aft = TrigTime.objects.latest(id)
+#             daily_time = trig_time_aft.trig_time_hour + ":" + trig_time_aft.trig_time_hour
+#     else:
+#         daily_time = daily_time_bef
+#
+#     context = {
+#         'daily_time': daily_time,
+#     }
+#     return render(request, template_name='timer.html', context=context)

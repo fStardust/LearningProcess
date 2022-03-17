@@ -6,7 +6,7 @@
 <body>
     <header>--------个性化天气预报系统------------</header>
 
-    <form action="/weather/" method="POST">
+    <form id="city" action="/weather/" method="POST">
         {% csrf_token %}
         <input name="city" type="text" placeholder="请输入要查询的城市名称">
         <button type="submit">查询</button>
@@ -32,12 +32,12 @@
 
     <div class="text">外出穿着推荐：{{ recommend  }}</div>
 
-    <div class="text">当前每日邮箱提醒时间为：{{  daily_time }}</div>
-    <form action="/weather/" method="TIMER">
-    <button type="submit">设置每日提醒时间</button>
-    </form>
+    <div class="text" >每日提醒时间：</div>
+    <div style="color: crimson">{{  daily_time }}</div>
+    <br>
+    <button onclick="window.location.href='../timer/'" type="button" id="add">设置每日提醒时间</button>
     <button type="submit">外出穿着推荐反馈</button>
-
+    <br>
     <div class="T">--------------------</div>
 </section>
 
