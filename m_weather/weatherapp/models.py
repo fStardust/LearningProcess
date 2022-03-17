@@ -16,7 +16,6 @@ class TrigTime(models.Model):
 
 
 class LogSheet(models.Model):
-    # run_time = models.OneToOneField(TrigTime, on_delete=models.CASCADE) # 一对一关系
     run_time = models.DateTimeField()   # 激活时间
     choice_text = models.CharField(max_length=200)      # 建议记录
 
@@ -26,11 +25,19 @@ class LogSheet(models.Model):
 
 
 class Condition(models.Model):
-    log_sheet = models.ForeignKey(LogSheet, on_delete=models.CASCADE)     # 一对多关系
+    # log_sheet = models.ForeignKey(LogSheet, on_delete=models.CASCADE)     # 一对多关系
     correction = models.IntegerField(default=0)     # 反馈分数
-    self_index = models.IntegerField(default=100)   # 个人指标
-    self_comment = models.TextField()   # 个人备注
+    self_index = models.IntegerField(default=0)   # 个人指标
 
     class Meta:
         verbose_name = "Condition"
+        verbose_name_plural = verbose_name
+
+
+class Recommend(models.Model):
+    rec_data = models.CharField(max_length=200)
+    all_index = models.IntegerField(default=100)
+
+    class Meta:
+        verbose_name = "Recommend"
         verbose_name_plural = verbose_name

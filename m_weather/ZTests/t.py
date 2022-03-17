@@ -1,26 +1,18 @@
-import time
-from apscheduler.schedulers.background import BackgroundScheduler
-from django_apscheduler.jobstores import DjangoJobStore, register_job, register_events
+import json
 
-print('django-apscheduler')
+import requests
+import xmltodict
 
-def job2(name):
-    # 具体要执行的代码
-    print('{} 任务运行成功！{}'.format(name,time.strftime("%Y-%m-%d %H:%M:%S")))
+per_utl_str_location = 'http://wthrcdn.etouch.cn/WeatherApi?city=' + "昆明"
+per_response_location = requests.get(per_utl_str_location, verify=False).text
+per_weather_dict_location = json.loads(json.dumps(xmltodict.parse(per_response_location)))
+print(per_weather_dict_location)
+per_com_loc = per_weather_dict_location["resp"]["zhishus"]["zhishu"]
 
-# 实例化调度器
-scheduler = BackgroundScheduler()
-# 调度器使用DjangoJobStore()
-scheduler.add_jobstore(DjangoJobStore(), "default")
-# # 添加任务1
-# # 每隔5s执行这个任务
-# @register_job(scheduler,"interval", seconds=5,args=['王路'],id='job1')
-# def job1(name):
-#     # 具体要执行的代码
-#     print('{} 任务运行成功！{}'.format(name,time.strftime("%Y-%m-%d %H:%M:%S")))
-
-scheduler.add_job(job2,"interval",seconds=10,args=['王飞'],id="job2")
+n = ""
+for i in per_com_loc:
+    m = i['name'] + ':' + '\n' + i['detail'] + '\n'
+    n = n + m
 
 
-# 调度器开始运行
-scheduler.start()
+print(n)

@@ -30,14 +30,19 @@
     </script>
     <script src="https://widget.qweather.net/standard/static/js/he-standard-common.js?v=2.0"></script>
 
-    <div class="text">外出穿着推荐：{{ recommend  }}</div>
 
+
+    <div class="text">针对您个人定制的外出穿着推荐：</div>
+    <div style="color: crimson">{{  self_recommend }}</div>
     <div class="text" >每日提醒时间：</div>
     <div style="color: crimson">{{  daily_time }}</div>
     <br>
     <button onclick="window.location.href='../timer/'" type="button" id="add">设置每日提醒时间</button>
-    <button type="submit">外出穿着推荐反馈</button>
+    <button onclick="window.location.href='../feedblack/'" type="button" id="add">外出穿着推荐反馈</button>
     <br>
+    <div class="text">大众化的外出建议：</div>
+    <span>{{ recommend  }}</span>
+
     <div class="T">--------------------</div>
 </section>
 
@@ -52,7 +57,7 @@
     <div class="wind">白天风向：{{ nowtq.wd_day }}</div>
     <div class="weather">晚间天气：{{ nowtq.text_night }}</div>
 
-    <div class="text">旅行推荐：{{ travel_recommend  }}</div>
+    <div class="text">旅行参考：{{ travel_recommend  }}</div>
     <div class="T">--------------------</div>
 </main>
 <footer>

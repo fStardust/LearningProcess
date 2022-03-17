@@ -5,6 +5,35 @@
     <title>反馈与个人情况</title>
 </head>
 <body>
+<header>--------个性化天气预报系统------------</header>
+
+    <form action="/feedblack/" method="POST">
+            {% csrf_token %}
+        <div class="test">当前个人指标偏差值：</div>
+            <br>
+        <div style="color: crimson">{{ self_index_d }}</div>
+            <br>
+        <div class="test">反馈偏差值：</div>
+            <br>
+        <input style = "width:60px;display:inline" name="self_index_change" type="text" placeholder="示例1: +8 | 示例2:-8"   >
+
+        <button type="submit">确认</button>
+
+        <button onclick="window.location.href='../weather/'" type="button" id="add">返回</button>
+
+        <div><br></div>
+        <div class="test">偏差值填写提示：</div>
+        <div class="test">+0: 大众穿着推荐刚刚好</div>
+        <div class="test">+2: 大众穿着推荐稍微有点热了</div>
+        <div class="test">+10: 大众穿着推荐有点热</div>
+        <div class="test">+50：大众穿着推荐太热了，完全无参考价值</div>
+        <div class="test">-2: 大众穿着推荐稍微有点热了</div>
+        <div class="test">-10: 大众穿着推荐有点热</div>
+        <div class="test">-50：大众穿着推荐太热了，完全无参考价值</div>
+        <div class="test">* 当然，您可以填你想填写的任何数值</div>
+        <div class="test">** 当然，最好一次填入的数值小于50——[-50,+50]</div>
+
+    </form>
 
 </body>
 </html>

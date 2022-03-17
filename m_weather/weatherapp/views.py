@@ -1,5 +1,6 @@
 import json
 import os
+import random
 from datetime import datetime
 
 import pandas as pd
@@ -10,15 +11,15 @@ from django.shortcuts import render
 from django_apscheduler.jobstores import DjangoJobStore, register_job
 
 from weatherMail.communication import com_weather
-from weatherapp.models import TrigTime, LogSheet
+from weatherapp.models import TrigTime, LogSheet, Recommend, Condition
 
 city_file = os.path.abspath('.\information\weather_district_id.csv')
 city_csv = pd.read_csv(city_file)
 
-# log_sheet = LogSheet.objects.all()
-
 trig_time = TrigTime.objects.last()
-test_id = "timer" + str(trig_time.id)
+
+test_id = "timer" + str(trig_time.id) + chr((trig_time.id % 100) + (random.randint(1, 30))) + chr(
+    random.randint(0, 6000))
 timer_hour = trig_time.trig_time_hour
 timer_min = trig_time.trig_time_min
 the_daily_time = timer_hour + ":" + timer_min
@@ -38,8 +39,6 @@ def com_timer():
 
 
 scheduler.start()  # 开始执行调度器
-# if request.method == 'POST':
-#     scheduler.modify_job(scheduler, hour=timer_hour, minute=timer_min)
 
 
 # 修改定时提醒时间
@@ -72,7 +71,6 @@ def change_time(request):
 
 # bai_utl_str:百度地图天气API;per_utl_str:万年历天气API
 def weather_data(request):
-    # daily_time = "8:30"
     daily_time = the_daily_time
     ip_api = 'https://api.map.baidu.com/location/ip?ak=b78I1MmxAMts1dkuBrwhyahPE6V6y5I7'
     bai_response = requests.get(ip_api)
@@ -114,10 +112,53 @@ def weather_data(request):
     city = data_dict['location']['city']
     print('城市：{}'.format(city))
 
-    per_recommend = per_weather_dict["resp"]["zhishus"]["zhishu"][0]["detail"]
+    per_rec = per_weather_dict["resp"]["zhishus"]["zhishu"]
 
-    recommend = "天气舒适，建议穿着薄款，透气的衣物。推荐：长T、长裙、长裤等。"
-    travel_recommend = per_recommend
+    per_utl_str_location = 'http://wthrcdn.etouch.cn/WeatherApi?city=' + current_location
+    per_response_location = requests.get(per_utl_str_location, verify=False).text
+    per_weather_dict_location = json.loads(json.dumps(xmltodict.parse(per_response_location)))
+    per_rec_loc = per_weather_dict_location["resp"]["zhishus"]["zhishu"]
+
+    per_recommend_aft = ""
+    for i in per_rec:
+        m = i['name'] + ':' + "|_____|" + i['detail'] + '|____________|'
+        per_recommend_aft = per_recommend_aft + m
+
+    recommend_loc = ""
+    for i in per_rec_loc:
+        m = i['name'] + ':' + "|_____|" + i['detail'] + '|____________|'
+        recommend_loc = recommend_loc + m
+
+    recommend = recommend_loc  # 大众推荐
+
+    # 个人推荐值 ##########
+    self_ind_l = Condition.objects.last()
+    self_ind = self_ind_l.self_index
+    all_ind = Recommend.objects.all()
+    if 0 <= self_ind < 10:
+        self_recommend = all_ind.all()[0].rec_data
+    elif 10 <= self_ind < 20:
+        self_recommend = all_ind.all()[1].rec_data
+    elif 20 <= self_ind < 30:
+        self_recommend = all_ind.all()[2].rec_data
+    elif 30 <= self_ind < 40:
+        self_recommend = all_ind.all()[3].rec_data
+    elif 40 <= self_ind < 50:
+        self_recommend = all_ind.all()[4].rec_data
+    elif self_ind >= 50:
+        self_recommend = all_ind.all()[5].rec_data
+    elif -10 <= self_ind < 0:
+        self_recommend = all_ind.all()[6].rec_data
+    elif -20 <= self_ind < 20:
+        self_recommend = all_ind.all()[7].rec_data
+    elif -30 <= self_ind < 20:
+        self_recommend = all_ind.all()[8].rec_data
+    elif -40 <= self_ind < 20:
+        self_recommend = all_ind.all()[9].rec_data
+    else:
+        self_recommend = all_ind.all()[10].rec_data
+
+    travel_recommend = per_recommend_aft  # 旅游推荐
 
     nowtq = w_date[0]  # 改为 ***_weather
     onetq = w_date[1]
@@ -126,8 +167,8 @@ def weather_data(request):
     fourtq = w_date[4]
     for item_dict1 in w_date:
         date = item_dict1['date']
-        high = item_dict1['high']
-        low = item_dict1['low']
+        high = str(item_dict1['high']) + "℃"
+        low = str(item_dict1['low']) + "℃"
         text_day = item_dict1['text_day']
         wd_day = item_dict1['wd_day']
         text_night = item_dict1['text_night']
@@ -148,8 +189,25 @@ def weather_data(request):
         'fourtq': fourtq,
         'current_location': current_location,
         'recommend': recommend,
+        'self_recommend': self_recommend,
         'travel_recommend': travel_recommend,
-
     }
 
     return render(request, template_name='weather.html', context=context)
+
+
+def feedblack(request):
+    self_ind = Condition.objects.last()
+    self_index_bef = self_ind.self_index
+    if request.method == 'POST':
+        self_index_aft = self_index_bef + int(request.POST['self_index_change'])
+        self_index_aft.save()
+        self_ind = Condition.objects.last()
+        self_index_d = self_ind.self_index
+    else:
+        self_index_d = self_index_bef
+
+    context = {
+        "self_index_d": self_index_d
+    }
+    return render(request, template_name='feedblack.html', context=context)
