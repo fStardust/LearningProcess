@@ -9,11 +9,11 @@
 
     <form action="/feedblack/" method="POST">
             {% csrf_token %}
-        <div class="test">当前个人指标偏差值：</div>
+        <div class="test">当前个人指标偏差值计算结果为：</div>
             <br>
         <div style="color: crimson">{{ self_index_d }}</div>
             <br>
-        <div class="test">反馈偏差值：</div>
+        <div class="test">反馈感受值：</div>
             <br>
         <input style = "width:60px;display:inline" name="self_index_change" type="text" placeholder="示例1: +8 | 示例2:-8"   >
 
@@ -22,7 +22,7 @@
         <button onclick="window.location.href='../weather/'" type="button" id="add">返回</button>
 
         <div><br></div>
-        <div class="test">偏差值填写提示：</div>
+        <div class="test">感受值填写提示：</div>
         <div class="test">+0: 大众穿着推荐刚刚好</div>
         <div class="test">+2: 大众穿着推荐稍微有点热了</div>
         <div class="test">+10: 大众穿着推荐有点热</div>

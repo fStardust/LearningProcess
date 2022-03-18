@@ -18,8 +18,7 @@ city_csv = pd.read_csv(city_file)
 
 trig_time = TrigTime.objects.last()
 
-test_id = "timer" + str(trig_time.id) + chr((trig_time.id % 100) + (random.randint(1, 30))) + chr(
-    random.randint(0, 6000))
+test_id = "timer" + str(trig_time.id) + chr((trig_time.id % 26) + 65) + chr(random.randint(65, 90))
 timer_hour = trig_time.trig_time_hour
 timer_min = trig_time.trig_time_min
 the_daily_time = timer_hour + ":" + timer_min
@@ -32,7 +31,6 @@ scheduler.add_jobstore(DjangoJobStore(), "default")
 @register_job(scheduler, 'cron', day_of_week='*', hour=timer_hour, minute=timer_min, id=test_id)
 def com_timer():
     localtime = datetime.now()
-    print(localtime.strftime("%Y-%m-%d %H:%M:%S"))
     log_sheet = LogSheet(run_time=localtime, choice_text="text")
     log_sheet.save()
     com_weather()
@@ -75,8 +73,9 @@ def weather_data(request):
     ip_api = 'https://api.map.baidu.com/location/ip?ak=b78I1MmxAMts1dkuBrwhyahPE6V6y5I7'
     bai_response = requests.get(ip_api)
     city_dict = json.loads(bai_response.text)
+    print(city_dict)
     current_location = city_dict['content']['address_detail']['city']
-
+    district_l = str(city_dict['content']['address_detail']['city_code'])
     if request.method == 'POST':
         city = request.POST['city']
         for i in range(len(city_csv)):
@@ -103,13 +102,16 @@ def weather_data(request):
 
     bai_weather_dict = json.loads(bai_response)
     per_weather_dict = json.loads(json.dumps(xmltodict.parse(per_response)))
-    data_dict = bai_weather_dict['result']
+    data_dict = bai_weather_dict["result"]
     w_date = data_dict['forecasts']
 
     bai_weather_json = json.dumps(bai_weather_dict, ensure_ascii=False)
     per_weather_json = json.dumps(per_weather_dict, ensure_ascii=False)
 
-    city = data_dict['location']['city']
+    p_city = data_dict['location']['province']
+    b_city = data_dict['location']['city']
+    m_city = data_dict['location']['name']
+    city = "省级:" + p_city + ",市级：" + b_city + ",县市级：" + m_city
     print('城市：{}'.format(city))
 
     per_rec = per_weather_dict["resp"]["zhishus"]["zhishu"]
@@ -119,17 +121,21 @@ def weather_data(request):
     per_weather_dict_location = json.loads(json.dumps(xmltodict.parse(per_response_location)))
     per_rec_loc = per_weather_dict_location["resp"]["zhishus"]["zhishu"]
 
-    per_recommend_aft = ""
-    for i in per_rec:
-        m = i['name'] + ':' + "|_____|" + i['detail'] + '|____________|'
-        per_recommend_aft = per_recommend_aft + m
+    # per_recommend_aft = ""
+    # for i in per_rec:
+    #     m = i['name'] + ':' + "|—————" + i['detail'] + '|____________|'
+    #     per_recommend_aft = per_recommend_aft + m
+    per_recommend_aft = per_rec[0]['name'] + ":" + per_rec[0]['detail']
 
-    recommend_loc = ""
-    for i in per_rec_loc:
-        m = i['name'] + ':' + "|_____|" + i['detail'] + '|____________|'
-        recommend_loc = recommend_loc + m
+    # recommend_loc = ""
+    # for i in per_rec_loc:
+    #     m = i['name'] + ':' + "|—————" + i['detail'] + '|____________|'
+    #     recommend_loc = recommend_loc + m
+    # recommend = recommend_loc
+    recommend = per_rec_loc[0]['name'] + ":" + per_rec_loc[0]['detail']
 
-    recommend = recommend_loc  # 大众推荐
+    # 体感温度
+    feels_like = str(data_dict['now']['feels_like']) + "℃"
 
     # 个人推荐值 ##########
     self_ind_l = Condition.objects.last()
@@ -171,10 +177,11 @@ def weather_data(request):
         low = str(item_dict1['low']) + "℃"
         text_day = item_dict1['text_day']
         wd_day = item_dict1['wd_day']
+        wc_day = item_dict1['wc_day']
         text_night = item_dict1['text_night']
         print(
-            '时间：{}; 最高温度：{};最低温度：{}; 白天天气：{}; 白天风向：{}; 晚间天气：{}'.format(
-                date, high, low, text_day, wd_day, text_night
+            '时间：{}; 最高温度：{};最低温度：{}; 白天天气：{}; 白天风向：{};白天风速：{}; 晚间天气：{}'.format(
+                date, high, low, text_day, wd_day, wc_day, text_night
             )
         )
 
@@ -182,6 +189,7 @@ def weather_data(request):
         'city': city,
         'weather_list': w_date,
         'daily_time': daily_time,
+        'feels_like': feels_like,
         'nowtq': nowtq,
         'onetq': onetq,
         'twotq': twotq,
