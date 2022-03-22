@@ -21,7 +21,7 @@ from weatherapp.views import weather_data, change_time, feedblack
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    url(r'^$', weather_data),
+    # url(r'^$', weather_data),
     path('timer/', change_time),
     path('weather/', weather_data),
     path('feedblack/', feedblack)

@@ -21,7 +21,7 @@ trig_time = TrigTime.objects.last()
 test_id = "timer" + str(trig_time.id) + chr((trig_time.id % 26) + 65) + chr(random.randint(65, 90))
 timer_hour = trig_time.trig_time_hour
 timer_min = trig_time.trig_time_min
-the_daily_time = timer_hour + ":" + timer_min
+the_daily_time = timer_hour + ":" + timer_min   # 测试时设置时间太近，调度器会错过执行时间
 
 # 定时触发
 scheduler = BackgroundScheduler()
