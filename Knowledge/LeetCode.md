@@ -137,3 +137,30 @@ class Solution:
         return slow
 ```
 
+###### [27. 移除元素](https://leetcode-cn.com/problems/remove-element/)
+
+给你一个数组 nums 和一个值 val，你需要 原地 移除所有数值等于 val 的元素，并返回移除后数组的新长度。
+
+不要使用额外的数组空间，你必须仅使用 O(1) 额外空间并 原地 修改输入数组。
+
+元素的顺序可以改变。你不需要考虑数组中超出新长度后面的元素。
+
+```python
+# 整体思路跟上一题(26)并无区别，主要区别在与 一个是有序 一个是无序
+# 还是采用 双指针 的方法来处理
+# 移除数组中所有等于目标值（val）的元素，即在慢指针记录的数组中不记录这些数即可
+
+class Solution:
+    def removeElement(self, nums: List[int], val: int) -> int:
+        a = 0
+        b = 0
+
+        while a < len(nums):
+            if nums[a] != val:
+                nums[b] = nums[a]
+                b += 1
+            a += 1
+        
+        return b
+```
+
