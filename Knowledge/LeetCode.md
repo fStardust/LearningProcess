@@ -145,6 +145,8 @@ class Solution:
 
 元素的顺序可以改变。你不需要考虑数组中超出新长度后面的元素。
 
+**题解：**
+
 ```python
 # 整体思路跟上一题(26)并无区别，主要区别在与 一个是有序 一个是无序
 # 还是采用 双指针 的方法来处理
@@ -163,4 +165,61 @@ class Solution:
         
         return b
 ```
+
+###### [28. 实现 strStr()](https://leetcode-cn.com/problems/implement-strstr/)
+
+实现 `strStr()` 函数。
+
+给你两个字符串 haystack 和 needle ，请你在 haystack 字符串中找出 needle 字符串出现的第一个位置（下标从 0 开始）。如果不存在，则返回  -1 。
+
+ 
+
+**说明：**
+
+当 needle 是空字符串时，我们应当返回什么值呢？这是一个在面试中很好的问题。
+
+对于本题而言，当 needle 是空字符串时我们应当返回 0 。这与 C 语言的 strstr() 以及 Java 的 indexOf() 定义相符。
+
+**题解：**
+
+```python
+# 直接使用Python内建函数 -- .find()
+## 使用 Sunday 算法
+### Sunday 算法是 Daniel M.Sunday 于1990年提出的字符串模式匹配。
+### 其效率在匹配随机的字符串时比其他匹配算法还要更快。 
+### Sunday 算法的实现可比 KMP，BM 的实现容易太多。
+class Solution:
+    def strStr(self, haystack: str, needle: str) -> int:
+        if not needle: return 0
+
+        lnd = len(needle)
+        lnf = len(haystack)
+        if lnd > lnf: return -1
+
+        # 偏移表 -- 用来处理目标串中出现的字符
+        # v:lnd-k 表示 value = lnd - key
+        # k,v 表示 key 与 value 互换
+        # enumerate() 表示 将一个可遍历的数据对象(needle)组合为一个索引序列，同时列出下标和数据
+        dic={v:lnd-k for k, v in enumerate(needle)}
+        idx = 0
+
+        while idx+lnd <= lnf:
+            # 取出待匹配字符串
+            str_cut = haystack[idx:idx+lnd]
+            # 判断是否匹配
+            if str_cut == needle:
+                return idx
+            elif idx+lnd == lnf:    # 此处的 elif 目的是减少循环次数
+                return -1
+            else:
+                # 不匹配时，根据狭义字符的偏移，移动idx
+                nextc = haystack[idx+lnd]  
+                # 三元判断，如果偏移后的值为偏移表 key，那么 idx 添加偏移表对应 value，
+                # 若找不到，则idx 除添加 needle 长度外多加 1 -- 减少循环次数
+                idx += dic[nextc] if dic.get(nextc) else lnd+1
+        return -1
+
+```
+
+![28-输出结果](https://s2.loli.net/2022/04/02/DexAY2jhb75Zndi.png)
 
