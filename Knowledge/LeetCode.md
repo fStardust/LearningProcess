@@ -250,3 +250,43 @@ class Solution:
 
 ```
 
+###### [53. 最大子数组和](https://leetcode-cn.com/problems/maximum-subarray/)
+
+给你一个整数数组 `nums` ，请你找出一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
+
+**子数组** 是数组中的一个**连续**部分。
+
+**题解：**
+
+```python
+# 动态规划
+# 最重要的思想是利用上一个状态函数
+# 我们用 f(i) 代表以第 i 个数结尾的「连续子数组的最大和」，
+# 那么很显然我们要求的答案就是：max{f(i)}(0≤i≤n−1)
+# 其中f(i)数学表达为： f(i)=max{f(i−1)+nums[i],nums[i]}
+# 使用 max_f.append(max(max_f[i-1]+nums[i], nums[i])) 获得 f(i)
+# 利用f(i)组成的数组，即可方便得出最终结果
+
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        max_f = [nums[0]]
+        for i in range(1, len(nums)):
+            max_f.append(max(max_f[i-1]+nums[i], nums[i]))
+        return max(max_f)
+
+```
+
+```java
+// 动态规划
+class Solution {
+    public int maxSubArray(int[] nums) {
+        int pre = 0, maxAns = nums[0];
+        for (int x : nums) {
+            pre = Math.max(pre + x, x);
+            maxAns = Math.max(maxAns, pre);
+        }
+        return maxAns;
+    }
+}
+```
+
