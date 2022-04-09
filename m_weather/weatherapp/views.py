@@ -17,11 +17,10 @@ city_file = os.path.abspath('.\information\weather_district_id.csv')
 city_csv = pd.read_csv(city_file)
 
 trig_time = TrigTime.objects.last()
-
 test_id = "timer" + str(trig_time.id) + chr((trig_time.id % 26) + 65) + chr(random.randint(65, 90))
 timer_hour = trig_time.trig_time_hour
 timer_min = trig_time.trig_time_min
-the_daily_time = timer_hour + ":" + timer_min   # 测试时设置时间太近，调度器会错过执行时间
+the_daily_time = timer_hour + ":" + timer_min
 
 # 定时触发
 scheduler = BackgroundScheduler()
@@ -48,16 +47,17 @@ def change_time(request):
         daily_time_aft = timer_hour_aft + ":" + timer_min_aft
         daily_time_aft = pd.to_datetime(daily_time_aft, format="%H:%M", errors="coerce")
         if str(daily_time_aft) == "NaT":
-            print(12)
             timer_hour_aft = "NaT"
             timer_min_aft = "输入错误"
             daily_time_aft = timer_hour_aft + ":" + timer_min_aft
             daily_time = daily_time_aft
         else:
+            trig_time_aft = TrigTime.objects.last()
             trig_time_aft = TrigTime(trig_time_hour=timer_hour_aft, trig_time_min=timer_min_aft)
             trig_time_aft.save()
             trig_time_aft = TrigTime.objects.last()
             daily_time = trig_time_aft.trig_time_hour + ":" + trig_time_aft.trig_time_min
+
     else:
         daily_time = daily_time_bef
 
@@ -69,7 +69,13 @@ def change_time(request):
 
 # bai_utl_str:百度地图天气API;per_utl_str:万年历天气API
 def weather_data(request):
-    daily_time = the_daily_time
+    trig_time_now = TrigTime.objects.last()
+    # test_id = "timer" + str(trig_time.id) + chr((trig_time.id % 26) + 65) + chr(random.randint(65, 90))
+    timer_hour_now = trig_time_now.trig_time_hour
+    timer_min_now = trig_time_now.trig_time_min
+    the_daily_time_now = timer_hour_now + ":" + timer_min_now
+    daily_time = the_daily_time_now
+    print(daily_time)
     ip_api = 'https://api.map.baidu.com/location/ip?ak=b78I1MmxAMts1dkuBrwhyahPE6V6y5I7'
     bai_response = requests.get(ip_api)
     city_dict = json.loads(bai_response.text)
@@ -141,6 +147,7 @@ def weather_data(request):
     self_ind_l = Condition.objects.last()
     self_ind = self_ind_l.self_index
     all_ind = Recommend.objects.all()
+    print(self_ind)
     if 0 <= self_ind < 10:
         self_recommend = all_ind.all()[0].rec_data
     elif 10 <= self_ind < 20:
@@ -209,7 +216,8 @@ def feedblack(request):
     self_index_bef = self_ind.self_index
     if request.method == 'POST':
         self_index_aft = self_index_bef + int(request.POST['self_index_change'])
-        self_index_aft.save()
+        self_ind.self_index = self_index_aft
+        self_ind.save()
         self_ind = Condition.objects.last()
         self_index_d = self_ind.self_index
     else:
