@@ -40,7 +40,12 @@ scheduler.start()  # 开始执行调度器
 
 # 修改定时提醒时间
 def change_time(request):
-    daily_time_bef = the_daily_time
+    trig_time_now = TrigTime.objects.last()
+    # test_id = "timer" + str(trig_time.id) + chr((trig_time.id % 26) + 65) + chr(random.randint(65, 90))
+    timer_hour_now = trig_time_now.trig_time_hour
+    timer_min_now = trig_time_now.trig_time_min
+    the_daily_time_now = timer_hour_now + ":" + timer_min_now
+    daily_time_bef = the_daily_time_now
     if request.method == 'POST':
         timer_hour_aft = request.POST['daily_time_hour']
         timer_min_aft = request.POST['daily_time_min']
@@ -77,8 +82,8 @@ def weather_data(request):
     daily_time = the_daily_time_now
     print(daily_time)
     ip_api = 'https://api.map.baidu.com/location/ip?ak=b78I1MmxAMts1dkuBrwhyahPE6V6y5I7'
-    bai_response = requests.get(ip_api)
-    city_dict = json.loads(bai_response.text)
+    bai_response = requests.get(ip_api, verify=False).text
+    city_dict = json.loads(bai_response)
     print(city_dict)
     current_location = city_dict['content']['address_detail']['city']
     district_l = str(city_dict['content']['address_detail']['city_code'])
@@ -148,7 +153,7 @@ def weather_data(request):
     self_ind = self_ind_l.self_index
     all_ind = Recommend.objects.all()
     print(self_ind)
-    if 0 <= self_ind < 10:
+    if -10 < self_ind < 10:
         self_recommend = all_ind.all()[0].rec_data
     elif 10 <= self_ind < 20:
         self_recommend = all_ind.all()[1].rec_data
@@ -160,13 +165,13 @@ def weather_data(request):
         self_recommend = all_ind.all()[4].rec_data
     elif self_ind >= 50:
         self_recommend = all_ind.all()[5].rec_data
-    elif -10 <= self_ind < 0:
+    elif -20 < self_ind <= -10:
         self_recommend = all_ind.all()[6].rec_data
-    elif -20 <= self_ind < 20:
+    elif -30 < self_ind <= -20:
         self_recommend = all_ind.all()[7].rec_data
-    elif -30 <= self_ind < 20:
+    elif -40 < self_ind <= -30:
         self_recommend = all_ind.all()[8].rec_data
-    elif -40 <= self_ind < 20:
+    elif -50 < self_ind <= -40:
         self_recommend = all_ind.all()[9].rec_data
     else:
         self_recommend = all_ind.all()[10].rec_data
