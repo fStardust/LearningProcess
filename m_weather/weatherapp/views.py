@@ -1,7 +1,7 @@
 import json
 import os
 import random
-from datetime import datetime
+from datetime import datetime, time
 
 import pandas as pd
 import requests
@@ -62,6 +62,16 @@ def change_time(request):
             trig_time_aft.save()
             trig_time_aft = TrigTime.objects.last()
             daily_time = trig_time_aft.trig_time_hour + ":" + trig_time_aft.trig_time_min
+
+            scheduler = BackgroundScheduler()
+            scheduler.add_jobstore(DjangoJobStore(), "default")
+
+            @register_job(scheduler, 'cron', day_of_week='*', hour=timer_hour, minute=timer_min, id=test_id)
+            def com_timer():
+                localtime = datetime.now()
+                log_sheet = LogSheet(run_time=localtime, choice_text="text")
+                log_sheet.save()
+                com_weather()
 
     else:
         daily_time = daily_time_bef
