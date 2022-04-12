@@ -2,14 +2,7 @@ import csv
 
 import requests
 
-
-def gbk_trans_utf8(file_path):
-    with open(file_path, 'r', encoding='gbk') as f:
-        content = f.read()
-    print(content)
-    with open(file_path, 'w', encoding='utf8') as f:
-        f.write(content)
-
+from weatherapp.method import gbk_trans_utf8
 
 url = 'https://m.sm.cn/api/rest?format=json&method=Huoshenshan.riskArea&_=1628665447912'
 r = requests.get(url)
@@ -43,7 +36,7 @@ for item in citymaps:
                 results.append(result)
 header = ['风险等级', '省份', '区域']
 header1 = ['更新时间：', updatetime['1']]
-filename = '全国最新风险等级区域' + '.csv'
+filename = '../information/全国最新风险等级区域' + '.csv'
 print(len(results))
 print(filename)
 with open(filename, 'w', newline='') as f:

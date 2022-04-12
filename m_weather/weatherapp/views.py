@@ -63,16 +63,6 @@ def change_time(request):
             trig_time_aft = TrigTime.objects.last()
             daily_time = trig_time_aft.trig_time_hour + ":" + trig_time_aft.trig_time_min
 
-            scheduler = BackgroundScheduler()
-            scheduler.add_jobstore(DjangoJobStore(), "default")
-
-            @register_job(scheduler, 'cron', day_of_week='*', hour=timer_hour, minute=timer_min, id=test_id)
-            def com_timer():
-                localtime = datetime.now()
-                log_sheet = LogSheet(run_time=localtime, choice_text="text")
-                log_sheet.save()
-                com_weather()
-
     else:
         daily_time = daily_time_bef
 
@@ -158,7 +148,7 @@ def weather_data(request):
     # 体感温度
     feels_like = str(data_dict['now']['feels_like']) + "℃"
 
-    # 个人推荐值 ##########
+    # 个人推荐值
     self_ind_l = Condition.objects.last()
     self_ind = self_ind_l.self_index
     all_ind = Recommend.objects.all()
@@ -226,6 +216,7 @@ def weather_data(request):
     return render(request, template_name='weather.html', context=context)
 
 
+# 个人感受反馈
 def feedblack(request):
     self_ind = Condition.objects.last()
     self_index_bef = self_ind.self_index
