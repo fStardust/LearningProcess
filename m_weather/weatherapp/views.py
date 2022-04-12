@@ -1,7 +1,7 @@
 import json
 import os
 import random
-from datetime import datetime, time
+from datetime import datetime
 
 import pandas as pd
 import requests
@@ -11,6 +11,7 @@ from django.shortcuts import render
 from django_apscheduler.jobstores import DjangoJobStore, register_job
 
 from weatherMail.communication import com_weather
+from weatherapp.method import get_rick_area
 from weatherapp.models import TrigTime, LogSheet, Recommend, Condition
 
 city_file = os.path.abspath('.\information\weather_district_id.csv')
@@ -37,6 +38,8 @@ def com_timer():
 
 scheduler.start()  # 开始执行调度器
 
+get_rick_area()  # 获取国内中高风险地区 并保存在 全国最先风险等级区域.csv
+
 
 # 修改定时提醒时间
 def change_time(request):
@@ -56,7 +59,7 @@ def change_time(request):
             daily_time_aft = timer_hour_aft + ":" + timer_min_aft
             daily_time = daily_time_aft
         else:
-            trig_time_aft = TrigTime.objects.last()
+            # trig_time_aft = TrigTime.objects.last()
             trig_time_aft = TrigTime(trig_time_hour=timer_hour_aft, trig_time_min=timer_min_aft)
             trig_time_aft.save()
             trig_time_aft = TrigTime.objects.last()
