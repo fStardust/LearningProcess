@@ -18,5 +18,4 @@ def dxy_data_down(article_url):
     f.write(str(soup))
     f.close()
 
-
 dxy_data_down("https://ncov.dxy.cn/ncovh5/view/pneumonia")

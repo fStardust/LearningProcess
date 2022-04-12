@@ -41,7 +41,6 @@ scheduler.start()  # 开始执行调度器
 # 修改定时提醒时间
 def change_time(request):
     trig_time_now = TrigTime.objects.last()
-    # test_id = "timer" + str(trig_time.id) + chr((trig_time.id % 26) + 65) + chr(random.randint(65, 90))
     timer_hour_now = trig_time_now.trig_time_hour
     timer_min_now = trig_time_now.trig_time_min
     the_daily_time_now = timer_hour_now + ":" + timer_min_now
