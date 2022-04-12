@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<!-- 引入百度地图api文件 -->
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=b78I1MmxAMts1dkuBrwhyahPE6V6y5I7"></script>
+<!-- 引入jquery -->
+<script type="text/javascript" src="jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+	$(function(){
+		//给获取位置按钮注册事件
+		$("input[name='getPoint']").bind('click',function(){
+			//获取起始位置
+			var beginPos=$("input[name='beginPos']").val();
+			//获取结束位置
+			var endPos=$("input[name='endPos']").val();
+			if(beginPos!='' && endPos!=''){
+				loadMap(beginPos,endPos);
+			}else{
+				alert('起始位置或结束位置未填写')
+			}
+		});
+
+		//ip定位，精度为城市级别
+		function myFun(result){
+			var cityName = result.name;
+			$("#msg").html("当前位置："+cityName);
+		}
+		var myCity = new BMap.LocalCity();
+		myCity.get(myFun);
+
+	});
+
+	//加载地图函数
+	function loadMap(beginPos,endPos){
+		//创建一个地图实例
+		var map = new BMap.Map("map");
+		//添加平移缩放控件，PC端默认位于地图左上方，它包含控制地图的平移和缩放的功能
+		map.addControl(new BMap.NavigationControl());
+		//添加比例尺
+		map.addControl(new BMap.ScaleControl());
+		//开启鼠标滚轮缩放
+		map.enableScrollWheelZoom();
+
+		//创建本地搜索
+		var localSearch = new BMap.LocalSearch(map);
+		//允许自动调节窗体大小
+        localSearch.enableAutoViewport();
+
+        //设置搜索结束时的回调函数
+        localSearch.setSearchCompleteCallback(function (searchResult) {
+        	var pois=new Array();
+        	for(var i=0;i<=1;i++){
+
+	        	//获取搜索结果
+	            var poi = searchResult[i].getPoi(0);
+	            //创建标注
+	            var marker = new BMap.Marker(poi.point);
+	            //存储点
+	            pois.push(poi.point);
+	            //设置放大级别，范围1-20
+	            map.centerAndZoom(poi.point,10);
+	            //添加覆盖物
+	            map.addOverlay(marker);
+        	}
+
+
+        	//创建两点间的折线
+            var polyline = new BMap.Polyline(
+            	[
+            		pois[0],
+            		pois[1]
+            	],
+                {strokeColor:"blue", strokeWeight:6, strokeOpacity:0.5}
+            );
+
+            //添加折线
+            map.addOverlay(polyline);
+
+            //计算两点之间距离
+            $("input[name='distance']").val((map.getDistance(pois[0],pois[1])).toFixed(2)+'米');
+
+        });
+        //搜索起始位置和结束位置
+        localSearch.search([beginPos,endPos]);
+
+	}
+
+
+</script>
+<style type="text/css">
+	#map{
+		width:100%;
+		height:580px;
+
+	}
+</style>
+</head>
+<body>
+
+
+		起始位置：<input type="text" name="beginPos">
+		结束位置：<input type="text" name="endPos">
+		<input type="button" name="getPoint" value="获取位置">
+		距离为：<input type="text" name="distance" readonly="readonly">
+		<span id="msg">正在获取当前位置...</span>
+    <!--地图容器-->
+	<div id="map">
+
+	</div>
+
+
+</body>
+</html>
