@@ -42,7 +42,8 @@
     <span>{{ recommend }}</span>
     <br>
     <span style="color:red"> 当地疫情情况：{{ loc_risk_area }} </span>
-
+    <br>
+    <button onclick="window.location.href='../chinaMap/'" type="button" id="add">查看全国累计疫情地图</button>
     <div class="T">--------------------</div>
 </section>
 
@@ -58,11 +59,10 @@
     <div class="wind">白天风向：{{ nowtq.wd_day }}</div>
     <div class="wind">白天风级：{{ nowtq.wc_day }}</div>
     <div class="weather">晚间天气：{{ nowtq.text_night }}</div>
-
-    <div class="text" style="color: cyan">旅行参考：</div>
-    <span style="color:red"> 疫情情况：{{ risk_area }} </span>
-
     <br>
+    <span style="color:red"> 疫情情况：{{ risk_area }} </span>
+    <br>
+    <div class="text" style="color: cyan">旅行参考：</div>
     <span>   {{ travel_recommend }}</span>
     <div class="T">--------------------</div>
 </main>

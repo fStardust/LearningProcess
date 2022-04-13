@@ -6,14 +6,12 @@ risk_file = os.path.abspath("D:\ProgramTest\LearningProcess\m_weather\informatio
 risk_csv = pd.read_csv(risk_file)
 
 
-# risk_message = ''
-
-
 def risk_node(address, test_csv):
     a, b, c, f = 0, 0, 0, 0
     address_index = address[:2]
     for i in range(len(test_csv)):
-        if address_index in test_csv['市级单位'][i] or address_index in test_csv['区域'][i] or address_index in test_csv['省级单位'][i]:
+        if address_index in test_csv['市级单位'][i] or address_index in test_csv['区域'][i] or address_index in \
+                test_csv['省级单位'][i]:
             message = "当地有疫情。"
             a += 1
             if test_csv['风险等级'][i] == "中风险":

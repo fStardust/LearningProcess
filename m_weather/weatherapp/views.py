@@ -1,6 +1,6 @@
 import json
 import os
-from datetime import datetime, time
+from datetime import datetime
 
 import pandas as pd
 import requests
@@ -10,6 +10,7 @@ from django.shortcuts import render
 from django_apscheduler.jobstores import DjangoJobStore, register_job
 
 from weatherMail.communication import com_weather
+from weatherapp.c_total_map import do_map
 from weatherapp.method import get_rick_area, risk_node
 from weatherapp.models import TrigTime, LogSheet, Recommend, Condition
 
@@ -45,6 +46,11 @@ def get_rick():
 
 
 scheduler.add_job(com_timer, "cron", day_of_week='*', hour=timer_hour, minute=timer_min, id="timer")
+
+
+def china_map(request):
+    do_map()
+    return render(request, template_name='chinaMap.html')
 
 
 # 修改定时提醒时间
@@ -193,8 +199,6 @@ def weather_data(request):
     # 本地 跟 目的地 疫情
     loc_risk_area = risk_node(current_location, risk_csv)
     risk_area = risk_node(b_city, risk_csv)
-    print(b_city)
-    print(risk_area)
 
     nowtq = w_date[0]  # 改为 ***_weather
     onetq = w_date[1]
