@@ -40,6 +40,8 @@
     <br>
     <div class="text" style="color: cyan">大众化的外出建议：</div>
     <span>{{ recommend  }}</span>
+    <br>
+    <span style="color:red"> 当地疫情情况：{{ loc_risk_area }} </span>
 
     <div class="T">--------------------</div>
 </section>
@@ -52,14 +54,15 @@
     <div class="weather">白天天气：{{ nowtq.text_day }}</div>
     <div class="temper">最高温度：{{ nowtq.high }}</div>
     <div class="temper">最低温度：{{ nowtq.low }}</div>
-                <div class="text" style="color:#14a7dc">当前体感温度为：{{ feels_like }}</div>
-
+    <div class="text" style="color:#14a7dc">当前体感温度为：{{ feels_like }}</div>
     <div class="wind">白天风向：{{ nowtq.wd_day }}</div>
-        <div class="wind">白天风级：{{ nowtq.wc_day }}</div>
-
+    <div class="wind">白天风级：{{ nowtq.wc_day }}</div>
     <div class="weather">晚间天气：{{ nowtq.text_night }}</div>
 
     <div class="text" style="color: cyan">旅行参考：</div>
+     <span style="color:red"> 疫情情况：{{ risk_area }} </span>
+
+    <br>
      <span>   {{ travel_recommend  }}</span>
     <div class="T">--------------------</div>
 </main>

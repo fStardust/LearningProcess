@@ -39,7 +39,7 @@ def com_timer():
 @register_job(scheduler, 'cron', day_of_week='*', hour="11", minute="00", id="get_rick_area")
 def get_rick():
     get_rick_area()
-    print('{} 任务运行成功！{}'.format(id, time.strftime("%Y-%m-%d %H:%M:%S")))
+    print('{} 任务运行成功！{}'.format(id, datetime.now("%Y-%m-%d %H:%M:%S")))
 
 
 scheduler.add_job(com_timer, "cron", day_of_week='*', hour=timer_hour, minute=timer_min, id="timer")
@@ -86,7 +86,6 @@ def change_time(request):
 # bai_utl_str:百度地图天气API;per_utl_str:万年历天气API
 def weather_data(request):
     trig_time_now = TrigTime.objects.last()
-    # test_id = "timer" + str(trig_time.id) + chr((trig_time.id % 26) + 65) + chr(random.randint(65, 90))
     timer_hour_now = trig_time_now.trig_time_hour
     timer_min_now = trig_time_now.trig_time_min
     the_daily_time_now = timer_hour_now + ":" + timer_min_now
