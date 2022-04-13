@@ -1,7 +1,7 @@
 import json
 import os
 import random
-from datetime import datetime
+from datetime import datetime, time
 
 import pandas as pd
 import requests
@@ -18,7 +18,7 @@ city_file = os.path.abspath('.\information\weather_district_id.csv')
 city_csv = pd.read_csv(city_file)
 
 trig_time = TrigTime.objects.last()
-test_id = "timer" + str(trig_time.id) + chr((trig_time.id % 26) + 65) + chr(random.randint(65, 90))
+# test_id = "timer" + str(trig_time.id) + chr((trig_time.id % 26) + 65) + chr(random.randint(65, 90))
 timer_hour = trig_time.trig_time_hour
 timer_min = trig_time.trig_time_min
 the_daily_time = timer_hour + ":" + timer_min
@@ -28,17 +28,22 @@ scheduler = BackgroundScheduler()
 scheduler.add_jobstore(DjangoJobStore(), "default")
 
 
-@register_job(scheduler, 'cron', day_of_week='*', hour=timer_hour, minute=timer_min, id=test_id)
-def com_timer():
+# 以add 方式添加 可修改定时触发器
+def com_timer(timer):
     localtime = datetime.now()
     log_sheet = LogSheet(run_time=localtime, choice_text="text")
     log_sheet.save()
     com_weather()
 
 
-scheduler.start()  # 开始执行调度器
+# 使用修饰器方式 每天定时获取国内中高风险地区 并保存在 全国最新风险等级区域.csv
+@register_job(scheduler, 'cron', day_of_week='*', hour="8", minute="00", id=get_rick_area)
+def get_rick(rick):
+    get_rick_area()
+    print('{} 任务运行成功！{}'.format(rick, time.strftime("%Y-%m-%d %H:%M:%S")))
 
-get_rick_area()  # 获取国内中高风险地区 并保存在 全国最先风险等级区域.csv
+
+scheduler.add_job(com_timer, "corn", day_of_week='*', hour=timer_hour, minute=timer_min, id="timer")
 
 
 # 修改定时提醒时间
@@ -235,3 +240,6 @@ def feedblack(request):
         "self_index_d": self_index_d
     }
     return render(request, template_name='feedblack.html', context=context)
+
+
+scheduler.start()  # 开始执行调度器
