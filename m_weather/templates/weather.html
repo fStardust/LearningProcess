@@ -4,13 +4,13 @@
     <meta charset="utf-8">
 </head>
 <body>
-    <header>--------个性化天气预报系统------------</header>
+<header>--------个性化天气预报系统------------</header>
 
-    <form id="city" action="/weather/" method="POST">
-        {% csrf_token %}
-        <input name="city" type="text" placeholder="请输入要查询的城市名称">
-        <button type="submit">查询</button>
-    </form>
+<form id="city" action="/weather/" method="POST">
+    {% csrf_token %}
+    <input name="city" type="text" placeholder="请输入要查询的城市名称">
+    <button type="submit">查询</button>
+</form>
 
 <section>
     <div class="week">您现在所在位置：{{ current_location }}</div>
@@ -29,17 +29,17 @@
         }
     </script>
     <script src="https://widget.qweather.net/standard/static/js/he-standard-common.js?v=2.0"></script>
-{#                <div class="text" style="color:#14a7dc">当前体感温度为：{{ feels_like_l }}</div>#}
+    {#                <div class="text" style="color:#14a7dc">当前体感温度为：{{ feels_like_l }}</div>#}
     <div class="text">针对您个人定制的外出穿着推荐：</div>
-    <div style="color: crimson">{{  self_recommend }}</div>
-    <div class="text" >每日提醒时间：</div>
-    <div style="color: #14dc1e">{{  daily_time }}</div>
+    <div style="color: crimson">{{ self_recommend }}</div>
+    <div class="text">每日提醒时间：</div>
+    <div style="color: #14dc1e">{{ daily_time }}</div>
     <br>
     <button onclick="window.location.href='../timer/'" type="button" id="add">设置每日提醒时间</button>
     <button onclick="window.location.href='../feedblack/'" type="button" id="add">外出穿着推荐反馈</button>
     <br>
     <div class="text" style="color: cyan">大众化的外出建议：</div>
-    <span>{{ recommend  }}</span>
+    <span>{{ recommend }}</span>
     <br>
     <span style="color:red"> 当地疫情情况：{{ loc_risk_area }} </span>
 
@@ -47,7 +47,7 @@
 </section>
 
 <header>{{ city }}</header>
-    <div class="T">--------------------</div>
+<div class="T">--------------------</div>
 
 <main>
     <div class="week">日期：{{ nowtq.date }}</div>
@@ -60,10 +60,10 @@
     <div class="weather">晚间天气：{{ nowtq.text_night }}</div>
 
     <div class="text" style="color: cyan">旅行参考：</div>
-     <span style="color:red"> 疫情情况：{{ risk_area }} </span>
+    <span style="color:red"> 疫情情况：{{ risk_area }} </span>
 
     <br>
-     <span>   {{ travel_recommend  }}</span>
+    <span>   {{ travel_recommend }}</span>
     <div class="T">--------------------</div>
 </main>
 <footer>
@@ -75,7 +75,7 @@
         <div class="temper">最高温度：{{ onetq.high }}</div>
         <div class="temper">最低温度：{{ onetq.low }}</div>
         <div class="wind">白天风向：{{ onetq.wd_day }}</div>
-                <div class="wind">白天风级：{{ onetq.wc_day }}</div>
+        <div class="wind">白天风级：{{ onetq.wc_day }}</div>
 
         <div class="weather">晚间天气：{{ onetq.text_night }}</div>
         <div class="T">--------------------</div>
@@ -86,7 +86,7 @@
         <div class="temper">最高温度：{{ twotq.high }}</div>
         <div class="temper">最低温度：{{ twotq.low }}</div>
         <div class="wind">白天风向：{{ twotq.wd_day }}</div>
-                <div class="wind">白天风级：{{ twotq.wc_day }}</div>
+        <div class="wind">白天风级：{{ twotq.wc_day }}</div>
 
         <div class="weather">晚间天气：{{ twotq.text_night }}</div>
         <div class="T">--------------------</div>
@@ -97,7 +97,7 @@
         <div class="temper">最高温度：{{ threetq.high }}</div>
         <div class="temper">最低温度：{{ threetq.low }}</div>
         <div class="wind">白天风向：{{ threetq.wd_day }}</div>
-                <div class="wind">白天风级：{{ threetq.wc_day }}</div>
+        <div class="wind">白天风级：{{ threetq.wc_day }}</div>
         <div class="weather">晚间天气：{{ threetq.text_night }}</div>
         <div class="T">--------------------</div>
     </section>
@@ -107,7 +107,7 @@
         <div class="temper">最高温度：{{ fourtq.high }}</div>
         <div class="temper">最低温度：{{ fourtq.low }}</div>
         <div class="wind">白天风向：{{ fourtq.wd_day }}</div>
-                <div class="wind">白天风级：{{ fourtq.wc_day }}</div>
+        <div class="wind">白天风级：{{ fourtq.wc_day }}</div>
         <div class="weather">晚间天气：{{ fourtq.text_night }}</div>
         <div class="T">--------------------</div>
     </section>

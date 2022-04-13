@@ -10,11 +10,13 @@ from django.shortcuts import render
 from django_apscheduler.jobstores import DjangoJobStore, register_job
 
 from weatherMail.communication import com_weather
-from weatherapp.method import get_rick_area
+from weatherapp.method import get_rick_area, risk_node
 from weatherapp.models import TrigTime, LogSheet, Recommend, Condition
 
 city_file = os.path.abspath('.\information\weather_district_id.csv')
 city_csv = pd.read_csv(city_file)
+risk_file = os.path.abspath(".\information\全国最新风险等级区域.csv")
+risk_csv = pd.read_csv(risk_file)
 
 trig_time = TrigTime.objects.last()
 # test_id = "timer" + str(trig_time.id) + chr((trig_time.id % 26) + 65) + chr(random.randint(65, 90))
@@ -188,6 +190,12 @@ def weather_data(request):
 
     travel_recommend = per_recommend_aft  # 旅游推荐
 
+    # 本地 跟 目的地 疫情
+    loc_risk_area = risk_node(current_location, risk_csv)
+    risk_area = risk_node(b_city, risk_csv)
+    print(b_city)
+    print(risk_area)
+
     nowtq = w_date[0]  # 改为 ***_weather
     onetq = w_date[1]
     twotq = w_date[2]
@@ -209,6 +217,8 @@ def weather_data(request):
 
     context = {
         'city': city,
+        'loc_risk_area': loc_risk_area,
+        'risk_area': risk_area,
         'weather_list': w_date,
         'daily_time': daily_time,
         'feels_like': feels_like,

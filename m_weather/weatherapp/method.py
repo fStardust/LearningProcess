@@ -7,11 +7,9 @@ def gbk_trans_utf8(file_path):
 
 
 def get_rick_area():
-    # from weatherapp.method import gbk_trans_utf8
     import csv
 
     import requests
-
 
     url = 'https://m.sm.cn/api/rest?format=json&method=Huoshenshan.riskArea&_=1628665447912'
     r = requests.get(url)
@@ -49,15 +47,33 @@ def get_rick_area():
 
     header = ['风险等级', '省级单位', '市级单位', '区域']
     updatetime = ['更新时间：', updatetime[item]]
+    print(updatetime)
     filename = 'D:\ProgramTest\LearningProcess\m_weather\information\全国最新风险等级区域' + '.csv'
     print(filename)
-    with open(filename, 'w', newline='') as f:
+    with open(filename, 'w', newline='', encoding='utf-8') as f:
         f_csv = csv.writer(f)
-        f_csv.writerow(updatetime)
         f_csv.writerow(header)
         f_csv.writerows(results)
 
-    gbk_trans_utf8(filename)
 
+def risk_node(address, test_csv):
+    risk_message1, risk_message2 = "", ""
+    a, b, c, f = 0, 0, 0, 0
+    address_index = address[:2]
+    for i in range(len(test_csv)):
+        if address_index in test_csv['市级单位'][i] or address_index in test_csv['区域'][i] or address_index in test_csv['省级单位'][i]:
+            message = "当地有疫情。"
+            a += 1
+            if test_csv['风险等级'][i] == "中风险":
+                b += 1
+            else:
+                c += 1
+            strs = ["共", "个区域。其中低风险地区：", "个。高风险地区：", "个。请勿前往。"]
+            risk_message1 = address + message + strs[0] + str(a) + strs[1] + str(b) + strs[2] + str(c) + strs[3]
+        else:
+            f += 1
+            message = "当地无中高风险地区。"
+            risk_message2 = address + message
+    risk_message = risk_message1 if a != 0 else risk_message2
 
-get_rick_area()
+    return risk_message
