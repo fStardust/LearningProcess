@@ -1,6 +1,5 @@
 import json
 import os
-import random
 from datetime import datetime, time
 
 import pandas as pd
@@ -29,7 +28,7 @@ scheduler.add_jobstore(DjangoJobStore(), "default")
 
 
 # 以add 方式添加 可修改定时触发器
-def com_timer(timer):
+def com_timer():
     localtime = datetime.now()
     log_sheet = LogSheet(run_time=localtime, choice_text="text")
     log_sheet.save()
@@ -37,13 +36,13 @@ def com_timer(timer):
 
 
 # 使用修饰器方式 每天定时获取国内中高风险地区 并保存在 全国最新风险等级区域.csv
-@register_job(scheduler, 'cron', day_of_week='*', hour="8", minute="00", id=get_rick_area)
-def get_rick(rick):
+@register_job(scheduler, 'cron', day_of_week='*', hour="11", minute="00", id="get_rick_area")
+def get_rick():
     get_rick_area()
-    print('{} 任务运行成功！{}'.format(rick, time.strftime("%Y-%m-%d %H:%M:%S")))
+    print('{} 任务运行成功！{}'.format(id, time.strftime("%Y-%m-%d %H:%M:%S")))
 
 
-scheduler.add_job(com_timer, "corn", day_of_week='*', hour=timer_hour, minute=timer_min, id="timer")
+scheduler.add_job(com_timer, "cron", day_of_week='*', hour=timer_hour, minute=timer_min, id="timer")
 
 
 # 修改定时提醒时间
@@ -69,9 +68,14 @@ def change_time(request):
             trig_time_aft.save()
             trig_time_aft = TrigTime.objects.last()
             daily_time = trig_time_aft.trig_time_hour + ":" + trig_time_aft.trig_time_min
-
+            # 删除原任务并添加新任务
+            scheduler.remove_job(job_id="timer")
+            scheduler.add_job(com_timer, "cron", day_of_week='*', hour=timer_hour_aft, minute=timer_min_aft, id="timer")
     else:
         daily_time = daily_time_bef
+        # 删除原任务并添加新任务
+        scheduler.remove_job(job_id="timer")
+        scheduler.add_job(com_timer, "cron", day_of_week='*', hour=timer_hour_now, minute=timer_min_now, id="timer")
 
     context = {
         'daily_time': daily_time,
